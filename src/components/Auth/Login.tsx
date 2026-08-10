@@ -2,24 +2,38 @@
 
 import React, { useState } from 'react';
 import { HeartPulse, Mail, Lock, ArrowRight } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { login } from '@/hooks/useAuth';
+import { useAuthStore } from '@/store/authStore';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  console.log('email', email, password);
+  const { setAuth } = useAuthStore();
+  const router = useRouter();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    const payload = {
-      email: email,
-      password: password,
-    };
 
-    setTimeout(() => {
-      window.location.href = '/';
-    }, 1000);
+    try {
+      const data = await login(email, password);
+      const authData = data;
+      const token = authData?.access;
+      if (authData) {
+        setAuth(authData);
+      }
+      if (token) {
+        localStorage.setItem('token', token);
+      }
+      router.push('/');
+    } catch (error: any) {
+      console.error(error);
+      alert(error.message || 'Invalid email or password');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -30,9 +44,9 @@ const Login = () => {
       <div className="w-full max-w-2xl p-4 sm:p-6 lg:p-8 z-10 relative">
         <div className="glass shadow-2xl rounded-2xl sm:rounded-3xl p-6 sm:p-10 border border-white/40 dark:border-white/10 sm:border-gray-200 sm:dark:border-white/10">
           <div className="flex flex-col items-center mb-8">
-            <div className="h-14 w-14 bg-primary-50 dark:bg-primary-900/40 rounded-2xl flex items-center justify-center mb-4 shadow-sm border border-primary-100 dark:border-primary-800">
+            {/* <div className="h-14 w-14 bg-primary-50 dark:bg-primary-900/40 rounded-2xl flex items-center justify-center mb-4 shadow-sm border border-primary-100 dark:border-primary-800">
               <HeartPulse className="h-8 w-8 text-primary-500" />
-            </div>
+            </div> */}
             <h2 className="text-2xl sm:text-3xl font-heading font-bold text-gray-900 dark:text-white mb-2 text-center">
               Welcome back
             </h2>

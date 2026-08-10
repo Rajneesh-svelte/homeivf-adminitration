@@ -1,14 +1,16 @@
-import ProfileData from '@/components/ProfileData';
+import DoctorFormWrapper from '@/components/DoctorFormWrapper';
 
-export default function AppointmentsPage() {
+const page = () => {
   return (
     <div className=" animate-in fade-in duration-500">
       <div className="flex-row sm:items-center justify-between gap-2 mb-4">
         <h2 className="text-2xl font-bold font-heading text-gray-900 dark:text-white">
-          Create Counsellor
+          Create Docotor
         </h2>
       </div>
-      <ProfileData />
+      <DoctorFormWrapper />
     </div>
   );
-}
+};
+
+export default page;

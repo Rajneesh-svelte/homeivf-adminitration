@@ -44,6 +44,7 @@
 body {
   background-color: var(--background);
   color: var(--foreground);
+  color-scheme: light dark;
 }
 
 @layer utilities {
@@ -53,4 +54,15 @@ body {
   .glass {
     @apply bg-white/70 dark:bg-black/40 backdrop-blur-md border border-white/20 dark:border-white/10;
   }
+
+  .inputBaseStyle {
+    @apply h-12 w-full rounded-md border border-border bg-background
+          pr-4 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent
+          file:text-sm file:font-medium placeholder:text-gray-500 focus-visible:outline-none
+           focus-visible:ring-2 focus-visible:ring-primary-500 disabled:cursor-not-allowed
+            disabled:opacity-50;
+  }
+  /* input::placeholder {
+    padding-left: 4px;
+  } */
 }
