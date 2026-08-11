@@ -40,6 +40,11 @@ export function Sidebar() {
       href: '/roaster-form',
       icon: BadgeCheck,
     },
+    {
+      name: 'Doctor Change',
+      href: '/doctor-change',
+      icon: BadgeCheck,
+    },
   ];
 
   const handleLogout = () => {

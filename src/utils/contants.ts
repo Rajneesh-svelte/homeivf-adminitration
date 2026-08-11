@@ -24,3 +24,10 @@ export const GET_DOCTOR_API = '/admin_dashboard/api/v1/doctor-detail/';
 export const GET_COUNSELLOR_API = '/admin_dashboard/api/v1/counsler-detail/';
 
 // http://127.0.0.1:8000/admin_dashboard/api/v1/doctor-roster/c62369ee-c592-4cd0-85e3-071fcf09d510/
+
+// doctor list api
+export const CHANGE_DOCTOR_LIST = '/admin_dashboard/api/v2/change-doctor/list/';
+// doctor approve api + payalod + PATCH method
+export const CHANGE_DOCTOR_APPROVE_API = '/admin_dashboard/api/v2/change-doctor/approve/';
+// reject doctor change api + PATCH
+export const REJECT_DOCTOR_CHANGE = '/admin_dashboard/api/v2/change-doctor/reject/';
