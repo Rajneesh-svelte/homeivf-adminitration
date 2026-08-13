@@ -353,6 +353,7 @@ const DoctorChange = () => {
                         type="date"
                         name="appointment_date"
                         value={approveData.appointment_date}
+                        min={new Date().toISOString().split('T')[0]}
                         onChange={handleChange}
                         className="h-11 w-full rounded-xl border border-slate-200 bg-white px-4 text-sm text-slate-700 outline-none transition focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10"
                       />
