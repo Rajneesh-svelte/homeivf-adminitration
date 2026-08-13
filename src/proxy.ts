@@ -12,7 +12,7 @@ const VALID_ROUTES = [
   '/roaster-form',
 ];
 
-export function middleware(request: NextRequest) {
+export default function middleware(request: NextRequest) {
   const token = request.cookies.get('token')?.value;
   const { pathname } = request.nextUrl;
 
