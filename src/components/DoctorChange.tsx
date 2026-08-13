@@ -352,6 +352,7 @@ const DoctorChange = () => {
                       <input
                         type="date"
                         name="appointment_date"
+                        onKeyDown={(e) => e.preventDefault()}
                         value={approveData.appointment_date}
                         min={new Date().toISOString().split('T')[0]}
                         onChange={handleChange}
