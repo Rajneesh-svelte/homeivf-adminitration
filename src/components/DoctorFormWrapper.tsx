@@ -33,6 +33,8 @@ import { useCertificateStore } from '@/store/certificatelist';
 import { useCounsellorListStore } from '@/store/counsellorStore';
 import DoctorDetails from './DoctorDetails';
 import { useDoctorList } from '@/hooks/useDoctorList';
+import doctorImage from '@/../public/avatars/doctor.png';
+import Image from 'next/image';
 
 const DoctorFormWrapper: React.FC = () => {
   const { auth } = useAuthStore();
@@ -51,217 +53,219 @@ const DoctorFormWrapper: React.FC = () => {
     setSelectedId('');
   };
 
-  const doctorFormFields: FormFieldConfig[] = (([
-    { name: 'first_name', label: 'First Name', type: 'text', icon: UserIcon, required: true },
-    { name: 'last_name', label: 'Last Name', type: 'text', icon: UserIcon, required: true },
-    { name: 'email', label: 'Email Address', type: 'email', icon: MailIcon, required: false },
-    {
-      name: 'mobile_number',
-      label: 'Mobile Number',
-      type: 'text',
-      icon: PhoneIcon,
-      required: false,
-    },
-    {
-      name: 'alternative_mobile_number',
-      label: 'Alternate Mob. Number',
-      type: 'text',
-      icon: PhoneIcon,
-      required: false,
-    },
-    { name: 'password', label: 'Password', type: 'password', icon: LockIcon, required: true },
-    { name: 'city', label: 'City', type: 'text', icon: BuildingIcon, required: true },
-    { name: 'state', label: 'State', type: 'text', icon: MapPinIcon, required: true },
-    { name: 'country', label: 'Country', type: 'text', icon: GlobeIcon, required: true },
-    { name: 'zipcode', label: 'Zipcode', type: 'text', icon: HashIcon, required: true },
-    { name: 'role_type', label: 'Role Type', type: 'text', icon: BriefcaseIcon, required: true },
-    { name: 'designation', label: 'Designation', type: 'text', icon: IdCardIcon, required: true },
-    {
-      name: 'qualification',
-      label: 'Qualification',
-      type: 'text',
-      icon: GraduationCapIcon,
-      required: true,
-    },
-    {
-      name: 'experience_in_year',
-      label: 'Experience (Years)',
-      type: 'number',
-      icon: ClockIcon,
-      required: true,
-    },
-    { name: 'rating', label: 'Rating', type: 'number', icon: StarIcon, required: true },
-    {
-      name: 'gender',
-      label: 'Gender',
-      type: 'select',
-      icon: ClockIcon,
-      required: true,
+  const doctorFormFields: FormFieldConfig[] = (
+    [
+      { name: 'first_name', label: 'First Name', type: 'text', icon: UserIcon, required: true },
+      { name: 'last_name', label: 'Last Name', type: 'text', icon: UserIcon, required: true },
+      { name: 'email', label: 'Email Address', type: 'email', icon: MailIcon, required: false },
+      {
+        name: 'mobile_number',
+        label: 'Mobile Number',
+        type: 'text',
+        icon: PhoneIcon,
+        required: false,
+      },
+      {
+        name: 'alternative_mobile_number',
+        label: 'Alternate Mob. Number',
+        type: 'text',
+        icon: PhoneIcon,
+        required: false,
+      },
+      { name: 'password', label: 'Password', type: 'password', icon: LockIcon, required: true },
+      { name: 'city', label: 'City', type: 'text', icon: BuildingIcon, required: true },
+      { name: 'state', label: 'State', type: 'text', icon: MapPinIcon, required: true },
+      { name: 'country', label: 'Country', type: 'text', icon: GlobeIcon, required: true },
+      { name: 'zipcode', label: 'Zipcode', type: 'text', icon: HashIcon, required: true },
+      { name: 'role_type', label: 'Role Type', type: 'text', icon: BriefcaseIcon, required: true },
+      { name: 'designation', label: 'Designation', type: 'text', icon: IdCardIcon, required: true },
+      {
+        name: 'qualification',
+        label: 'Qualification',
+        type: 'text',
+        icon: GraduationCapIcon,
+        required: true,
+      },
+      {
+        name: 'experience_in_year',
+        label: 'Experience (Years)',
+        type: 'number',
+        icon: ClockIcon,
+        required: true,
+      },
+      { name: 'rating', label: 'Rating', type: 'number', icon: StarIcon, required: true },
+      {
+        name: 'gender',
+        label: 'Gender',
+        type: 'select',
+        icon: ClockIcon,
+        required: true,
 
-      options: [
-        { label: 'Male', value: 'Male' },
-        { label: 'Female', value: 'Female' },
-      ],
-    },
-    {
-      name: 'date_of_signature',
-      label: 'Date Of Signature',
-      type: 'date',
-      icon: ClockIcon,
-      required: true,
-    },
-    {
-      name: 'specialization',
-      label: 'Specialization',
-      type: 'text',
-      icon: BriefcaseIcon,
-      required: true,
-    },
-    {
-      name: 'work_experience',
-      label: 'Work Experience',
-      type: 'text',
-      icon: ClockIcon,
-      required: true,
-    },
-    {
-      name: 'education_and_training',
-      label: 'Education & Training',
-      type: 'text',
-      icon: GraduationCapIcon,
-      required: true,
-    },
-    {
-      name: 'consultation_fee',
-      label: 'Consultation Fee',
-      type: 'number',
-      icon: FileTextIcon,
-      required: true,
-    },
-    {
-      name: 'state_medical_council',
-      label: 'State Medical Council',
-      type: 'text',
-      icon: BuildingIcon,
-      required: true,
-    },
-    {
-      name: 'board_registration',
-      label: 'Board Registration',
-      type: 'text',
-      icon: IdCardIcon,
-      required: true,
-    },
-    {
-      name: 'cases_attended',
-      label: 'Cases Attended',
-      type: 'number',
-      icon: FileTextIcon,
-      required: true,
-    },
-    {
-      name: 'whatsapp_number',
-      label: 'WhatsApp Number',
-      type: 'text',
-      icon: PhoneIcon,
-      required: true,
-    },
-    {
-      name: 'awards',
-      label: 'Awards',
-      type: 'text',
-      icon: StarIcon,
-      required: true,
-    },
-    {
-      name: 'profile_summery',
-      label: 'Profile Summary',
-      type: 'text',
-      icon: FileTextIcon,
-      required: true,
-    },
-    {
-      name: 'counselor',
-      label: 'Counselor',
-      type: 'select',
-      multiple: false,
-      icon: UserIcon,
-      required: true,
-      options: counsellor.map((data) => ({
-        label: data.name,
-        value: data.id,
-      })),
-    },
-    {
-      name: 'level',
-      label: 'Level',
-      type: 'select',
-      icon: BriefcaseIcon,
-      required: true,
-      options: [
-        { label: 'Obstetrics', value: 'Obstetrics' },
-        { label: 'Gynaecology', value: 'Gynaecology' },
-        { label: 'Infertility', value: 'Infertility' },
-        { label: 'Anesthetist', value: 'Anesthetist' },
-        { label: 'Anesthesiologist', value: 'Anesthesiologist' },
-        { label: 'Andrologist', value: 'Andrologist' },
-        { label: 'Urologist', value: 'Urologist' },
-      ],
-    },
-    {
-      name: 'add_certificate_button',
-      label: 'Upload New Certificate',
-      type: 'button',
-      onClick: () => setIsCertificateModalOpen(true),
-      icon: FileTextIcon,
-    },
+        options: [
+          { label: 'Male', value: 'Male' },
+          { label: 'Female', value: 'Female' },
+        ],
+      },
+      {
+        name: 'date_of_signature',
+        label: 'Date Of Signature',
+        type: 'date',
+        icon: ClockIcon,
+        required: true,
+      },
+      {
+        name: 'specialization',
+        label: 'Specialization',
+        type: 'text',
+        icon: BriefcaseIcon,
+        required: true,
+      },
+      {
+        name: 'work_experience',
+        label: 'Work Experience',
+        type: 'text',
+        icon: ClockIcon,
+        required: true,
+      },
+      {
+        name: 'education_and_training',
+        label: 'Education & Training',
+        type: 'text',
+        icon: GraduationCapIcon,
+        required: true,
+      },
+      {
+        name: 'consultation_fee',
+        label: 'Consultation Fee',
+        type: 'number',
+        icon: FileTextIcon,
+        required: true,
+      },
+      {
+        name: 'state_medical_council',
+        label: 'State Medical Council',
+        type: 'text',
+        icon: BuildingIcon,
+        required: true,
+      },
+      {
+        name: 'board_registration',
+        label: 'Board Registration',
+        type: 'text',
+        icon: IdCardIcon,
+        required: true,
+      },
+      {
+        name: 'cases_attended',
+        label: 'Cases Attended',
+        type: 'number',
+        icon: FileTextIcon,
+        required: true,
+      },
+      {
+        name: 'whatsapp_number',
+        label: 'WhatsApp Number',
+        type: 'text',
+        icon: PhoneIcon,
+        required: true,
+      },
+      {
+        name: 'awards',
+        label: 'Awards',
+        type: 'text',
+        icon: StarIcon,
+        required: true,
+      },
+      {
+        name: 'profile_summery',
+        label: 'Profile Summary',
+        type: 'text',
+        icon: FileTextIcon,
+        required: true,
+      },
+      {
+        name: 'counselor',
+        label: 'Counselor',
+        type: 'select',
+        multiple: false,
+        icon: UserIcon,
+        required: true,
+        options: counsellor.map((data) => ({
+          label: data.name,
+          value: data.id,
+        })),
+      },
+      {
+        name: 'level',
+        label: 'Level',
+        type: 'select',
+        icon: BriefcaseIcon,
+        required: true,
+        options: [
+          { label: 'Obstetrics', value: 'Obstetrics' },
+          { label: 'Gynaecology', value: 'Gynaecology' },
+          { label: 'Infertility', value: 'Infertility' },
+          { label: 'Anesthetist', value: 'Anesthetist' },
+          { label: 'Anesthesiologist', value: 'Anesthesiologist' },
+          { label: 'Andrologist', value: 'Andrologist' },
+          { label: 'Urologist', value: 'Urologist' },
+        ],
+      },
+      {
+        name: 'add_certificate_button',
+        label: 'Upload New Certificate',
+        type: 'button',
+        onClick: () => setIsCertificateModalOpen(true),
+        icon: FileTextIcon,
+      },
 
-    {
-      name: 'art_treatments',
-      label: 'ART Treatment',
-      type: 'select',
-      multiple: true,
-      required: true,
-      options: artTreatment.map((art) => ({
-        label: art.name,
-        value: art.id,
-      })),
-    },
-    {
-      name: 'doctor_certificate',
-      label: 'Doctor Certificate ID',
-      multiple: true,
-      type: 'select',
-      icon: FileTextIcon,
-      required: true,
-      options: certificate.map((data) => ({
-        label: data.certificate_name,
-        value: data.id,
-      })),
-    },
+      {
+        name: 'art_treatments',
+        label: 'ART Treatment',
+        type: 'select',
+        multiple: true,
+        required: true,
+        options: artTreatment.map((art) => ({
+          label: art.name,
+          value: art.id,
+        })),
+      },
+      {
+        name: 'doctor_certificate',
+        label: 'Doctor Certificate ID',
+        multiple: true,
+        type: 'select',
+        icon: FileTextIcon,
+        required: true,
+        options: certificate.map((data) => ({
+          label: data.certificate_name,
+          value: data.id,
+        })),
+      },
 
-    {
-      name: 'profile_picture',
-      label: 'Profile Picture',
-      type: 'file',
-      icon: FileTextIcon,
-      required: true,
-    },
-    {
-      name: 'signature',
-      label: 'Signature',
-      type: 'file',
-      icon: FileTextIcon,
-      required: true,
-    },
-    {
-      name: 'e_stamp',
-      label: 'E-Stamp',
-      type: 'file',
-      icon: FileTextIcon,
-      required: true,
-    },
-  ] as FormFieldConfig[])).map((field) => ({
+      {
+        name: 'profile_picture',
+        label: 'Profile Picture',
+        type: 'file',
+        icon: FileTextIcon,
+        required: true,
+      },
+      {
+        name: 'signature',
+        label: 'Signature',
+        type: 'file',
+        icon: FileTextIcon,
+        required: true,
+      },
+      {
+        name: 'e_stamp',
+        label: 'E-Stamp',
+        type: 'file',
+        icon: FileTextIcon,
+        required: true,
+      },
+    ] as FormFieldConfig[]
+  ).map((field) => ({
     ...field,
     required: isEditMode ? false : field.required,
   }));
@@ -325,7 +329,9 @@ const DoctorFormWrapper: React.FC = () => {
     } catch (error: any) {
       console.error(isEditMode ? 'Failed to update doctor:' : 'Failed to create doctor:', error);
       toast.error(
-        error?.error || error?.message || (isEditMode ? 'Failed to update doctor' : 'Failed to create doctor'),
+        error?.error ||
+          error?.message ||
+          (isEditMode ? 'Failed to update doctor' : 'Failed to create doctor'),
         {
           position: 'top-right',
           autoClose: 3000,
@@ -448,8 +454,14 @@ const DoctorFormWrapper: React.FC = () => {
                   }`}
                 >
                   <div className="flex items-center space-x-4">
-                    <div className="h-10 w-10 flex items-center justify-center rounded-full bg-gradient-to-br from-primary-400 to-primary-600 text-white font-bold text-lg shadow-inner">
-                      {item.full_name.trim().charAt(0).toUpperCase()}
+                    <div className="h-10 w-10 flex items-center justify-center rounded-full bg-linear-to-t from-primary-200 to-white text-white font-bold text-lg shadow-inner">
+                      <Image
+                        alt="patient"
+                        src={doctorImage}
+                        width={50}
+                        height={50}
+                        className="h-15 w-15 object-contain"
+                      />
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-semibold text-gray-900 dark:text-white truncate group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">

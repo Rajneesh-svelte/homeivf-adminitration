@@ -1,27 +1,22 @@
 'use client';
 import { approveRequest, getChangeDoctorList, rejectRequest } from '@/services/doctorlist';
 import { useAuthStore } from '@/store/authStore';
-import {
-  ArrowRight,
-  Check,
-  CircleX,
-  CrossIcon,
-  FileText,
-  PersonStanding,
-  Presentation,
-  Stethoscope,
-  User,
-} from 'lucide-react';
+import { ArrowRight, Check, CircleX, CrossIcon, FileText, Stethoscope } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import patientpartner from '@/../public/avatars/patientpartner.png';
+import Image from 'next/image';
+import { useDoctorSlot } from '@/hooks/useDoctorSlot';
 
 const DoctorChange = () => {
   const { auth } = useAuthStore();
-  const [requestList, setRequestedList] = useState([]);
+  const [requestList, setRequestedList] = useState<any>({ count: 0, results: [] });
   const [approveModal, setApproveModal] = useState(false);
   const [rejectModal, setRejectModal] = useState(false);
+
   const [selectedRequest, setSelectedRequest] = useState({
     requestId: '',
     requestedDoctor: '',
+    requestedDoctorId: '',
   });
   const [approveData, setApproveData] = useState({
     appointment_date: '',
@@ -29,14 +24,20 @@ const DoctorChange = () => {
     end_time: '',
   });
 
+  const { slot } = useDoctorSlot({
+    selectedDate: approveData?.appointment_date,
+    selectedDoctorId: selectedRequest?.requestedDoctorId,
+  });
+  console.log('slot', slot);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-
     setApproveData((prev) => ({
       ...prev,
       [name]: value,
     }));
   };
+
   const handleApprove = async () => {
     if (auth?.access) {
       const data = {
@@ -45,10 +46,8 @@ const DoctorChange = () => {
         start_time: approveData.start_time,
         end_time: approveData.end_time,
       };
-      console.log(data);
       try {
         const res = await approveRequest(auth?.access, data);
-        console.log('res approved', res);
       } catch (err) {
         console.log('Approved not requested');
       }
@@ -60,7 +59,6 @@ const DoctorChange = () => {
       const data = {
         request_id: selectedRequest?.requestId,
       };
-      console.log(data);
       try {
         const res = await rejectRequest(auth?.access, data);
         console.log('res approved', res);
@@ -107,7 +105,7 @@ const DoctorChange = () => {
       </div>
 
       <div className="overflow-x-auto">
-        <table className="w-full min-w-[1200px] border-collapse">
+        <table className="w-full min-w-300 border-collapse">
           <thead>
             <tr className="border-b border-slate-200">
               <th className="w-[26%] px-8 py-5 text-left text-[11px] font-semibold uppercase tracking-wider text-slate-500">
@@ -139,11 +137,20 @@ const DoctorChange = () => {
           <tbody>
             {requestList.count > 0 ? (
               requestList.results.map((item: any) => (
-                <tr key={item.request_id} className="group transition-colors hover:bg-slate-50/50">
+                <tr
+                  key={item.request_id}
+                  className="group transition-colors hover:bg-primary-200/30"
+                >
                   <td className="px-8 py-6">
                     <div className="flex items-center gap-4">
-                      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-cyan-400 to-teal-500 text-lg font-semibold text-white shadow-sm">
-                        {item.patient_name?.charAt(0)?.toUpperCase()}
+                      <div className="flex h-15 w-15 shrink-0 items-center bg-linear-to-t  from-primary-400 to-white  justify-center overflow-hidden rounded-full">
+                        <Image
+                          alt="patient"
+                          src={patientpartner}
+                          width={50}
+                          height={50}
+                          className="h-15 w-15 object-contain"
+                        />
                       </div>
 
                       <div className="min-w-0">
@@ -194,7 +201,6 @@ const DoctorChange = () => {
                       className="max-w-[230px] text-sm leading-5 text-slate-600"
                     >
                       {item.reason}
-                      {item?.request_id}
                     </p>
                   </td>
 
@@ -231,10 +237,11 @@ const DoctorChange = () => {
                             setSelectedRequest({
                               requestId: item.request_id,
                               requestedDoctor: item.requested_doctor,
+                              requestedDoctorId: item?.requested_doctor_id,
                             });
                             setApproveModal(true);
                           }}
-                          className="flex w-[100px] items-center justify-center gap-1.5 rounded-lg bg-emerald-100 px-3 py-2.5 text-xs font-semibold text-teal-700 hover:bg-emerald-200"
+                          className="flex w-25 items-center justify-center gap-1.5 rounded-lg bg-emerald-100 px-3 py-2.5 text-xs font-semibold text-teal-700 hover:bg-emerald-200"
                         >
                           <Check size={14} />
                           Approve
@@ -246,10 +253,11 @@ const DoctorChange = () => {
                             setSelectedRequest({
                               requestId: item.request_id,
                               requestedDoctor: item.requested_doctor,
+                              requestedDoctorId: item?.requested_doctor_id,
                             });
                             setRejectModal(true);
                           }}
-                          className="flex w-[100px] items-center justify-center gap-1.5 rounded-lg bg-rose-100 px-3 py-2.5 text-xs font-semibold text-rose-600 hover:bg-rose-200"
+                          className="flex w-25 items-center justify-center gap-1.5 rounded-lg bg-rose-100 px-3 py-2.5 text-xs font-semibold text-rose-600 hover:bg-rose-200"
                         >
                           <CircleX size={14} />
                           Reject
@@ -264,7 +272,6 @@ const DoctorChange = () => {
                 </tr>
               ))
             ) : (
-              /* ================= EMPTY STATE ================= */
               <tr>
                 <td colSpan={6} className="px-6 py-20 text-center">
                   <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-slate-100">
@@ -282,104 +289,253 @@ const DoctorChange = () => {
           </tbody>
         </table>
         {approveModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 px-4 backdrop-blur-sm">
-            <div className="w-full max-w-lg overflow-hidden rounded-2xl bg-white shadow-2xl">
-              {/* Header */}
-              <div className="border-b border-slate-200 px-6 py-5">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <h2 className="text-lg font-semibold text-slate-900">Approve Doctor Change</h2>
-
-                    <p className="mt-1 text-sm text-slate-500">
-                      Confirm the appointment details before approving.
-                    </p>
-                  </div>
-
-                  <button
-                    type="button"
-                    onClick={() => setApproveModal(false)}
-                    className="flex h-9 w-9 items-center justify-center rounded-lg text-slate-400 transition hover:bg-slate-100 hover:text-slate-600"
-                  >
-                    <CrossIcon size={18} />
-                  </button>
-                </div>
-              </div>
-
-              <div className="space-y-5 px-6 py-6">
-                <div className="mb-5 flex items-center justify-between rounded-2xl border border-primary-200 bg-primary-50 px-5 py-4">
-                  <div>
-                    <p className="text-xs font-medium uppercase tracking-wide text-gray-500">
-                      Requested Doctor
-                    </p>
-
-                    <p className="mt-1 text-base font-bold text-primary-700">
-                      {selectedRequest?.requestedDoctor}
-                    </p>
-                  </div>
-
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white shadow-sm">
-                    <Stethoscope className="text-lg text-primary-400" />
-                  </div>
-                </div>
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 p-4 backdrop-blur-sm">
+            <div className="flex max-h-[90vh] w-full max-w-5xl flex-col overflow-hidden rounded-2xl bg-white shadow-2xl">
+              <div className="flex shrink-0 items-center justify-between border-b border-slate-200 px-6 py-5">
                 <div>
-                  <label className="mb-2 block text-sm font-medium text-slate-700">
-                    Appointment Date
-                  </label>
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary-50">
+                      <Stethoscope className="h-5 w-5 text-primary-600" />
+                    </div>
 
-                  <input
-                    type="date"
-                    name="appointment_date"
-                    value={approveData.appointment_date}
-                    onChange={handleChange}
-                    className="h-11 w-full rounded-xl border border-slate-200 bg-white px-4 text-sm text-slate-700 outline-none transition focus:border-[#0F5DA9] focus:ring-4 focus:ring-[#0F5DA9]/10"
-                  />
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="mb-2 block text-sm font-medium text-slate-700">
-                      Start Time
-                    </label>
+                    <div>
+                      <h2 className="text-lg font-semibold text-slate-900">
+                        Approve Doctor Change
+                      </h2>
 
-                    <input
-                      type="time"
-                      name="start_time"
-                      value={approveData.start_time}
-                      onChange={handleChange}
-                      className="h-11 w-full rounded-xl border border-slate-200 bg-white px-4 text-sm text-slate-700 outline-none transition focus:border-[#0F5DA9] focus:ring-4 focus:ring-[#0F5DA9]/10"
-                    />
-                  </div>
-                  <div>
-                    <label className="mb-2 block text-sm font-medium text-slate-700">
-                      End Time
-                    </label>
-
-                    <input
-                      type="time"
-                      name="end_time"
-                      value={approveData.end_time}
-                      onChange={handleChange}
-                      className="h-11 w-full rounded-xl border border-slate-200 bg-white px-4 text-sm text-slate-700 outline-none transition focus:border-[#0F5DA9] focus:ring-4 focus:ring-[#0F5DA9]/10"
-                    />
+                      <p className="mt-0.5 text-sm text-slate-500">
+                        Select an available slot and confirm the appointment.
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className="flex justify-end gap-3 border-t border-slate-200 bg-slate-50 px-6 py-4">
+
                 <button
                   type="button"
                   onClick={() => setApproveModal(false)}
-                  className="rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-sm font-medium text-slate-600 transition hover:bg-slate-100"
+                  className="flex h-9 w-9 items-center justify-center rounded-lg text-slate-400 transition hover:bg-slate-100 hover:text-slate-600"
                 >
-                  Cancel
+                  <CrossIcon size={18} />
                 </button>
+              </div>
 
-                <button
-                  type="button"
-                  onClick={handleApprove}
-                  className="flex items-center gap-2 rounded-xl bg-emerald-500 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-emerald-600"
-                >
-                  <Check size={16} />
-                  Confirm Approval
-                </button>
+              <div className="grid min-h-0 flex-1 grid-cols-1 overflow-hidden lg:grid-cols-[0.9fr_1.1fr]">
+                <div className="overflow-y-auto border-b border-slate-200 p-6 lg:border-b-0 lg:border-r">
+                  <div className="space-y-6">
+                    <div className="rounded-2xl border border-primary-100 bg-primary-50 p-5">
+                      <p className="text-xs font-semibold uppercase tracking-wider text-primary-500">
+                        Requested Doctor
+                      </p>
+
+                      <div className="mt-3 flex items-center justify-between">
+                        <div>
+                          <p className="text-lg font-bold text-primary-800">
+                            {selectedRequest?.requestedDoctor}
+                          </p>
+
+                          <p className="mt-1 text-xs text-primary-600">
+                            Doctor requested for this appointment
+                          </p>
+                        </div>
+
+                        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white shadow-sm">
+                          <Stethoscope className="h-5 w-5 text-primary-500" />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="mb-2 block text-sm font-medium text-slate-700">
+                        Appointment Date
+                      </label>
+
+                      <input
+                        type="date"
+                        name="appointment_date"
+                        value={approveData.appointment_date}
+                        onChange={handleChange}
+                        className="h-11 w-full rounded-xl border border-slate-200 bg-white px-4 text-sm text-slate-700 outline-none transition focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10"
+                      />
+                    </div>
+
+                    <div>
+                      <div className="mb-2 flex items-center justify-between">
+                        <label className="block text-sm font-medium text-slate-700">
+                          Appointment Time
+                        </label>
+
+                        {approveData.start_time && approveData.end_time && (
+                          <span className="text-xs font-medium text-emerald-600">
+                            Slot selected
+                          </span>
+                        )}
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-3">
+                        <div>
+                          <p className="mb-1.5 text-xs text-slate-500">Start Time</p>
+
+                          <input
+                            type="time"
+                            name="start_time"
+                            value={approveData.start_time}
+                            onChange={handleChange}
+                            className="h-11 w-full rounded-xl border border-slate-200 bg-white px-4 text-sm text-slate-700 outline-none transition focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10"
+                          />
+                        </div>
+
+                        <div>
+                          <p className="mb-1.5 text-xs text-slate-500">End Time</p>
+
+                          <input
+                            type="time"
+                            name="end_time"
+                            value={approveData.end_time}
+                            onChange={handleChange}
+                            className="h-11 w-full rounded-xl border border-slate-200 bg-white px-4 text-sm text-slate-700 outline-none transition focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+                      <div className="flex items-center gap-3">
+                        <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-white shadow-sm">
+                          <Check className="h-4 w-4 text-emerald-500" />
+                        </div>
+
+                        <div>
+                          <p className="text-xs font-medium text-slate-500">Selected Appointment</p>
+
+                          <p className="mt-0.5 text-sm font-semibold text-slate-800">
+                            {approveData.start_time && approveData.end_time
+                              ? `${approveData.start_time} - ${approveData.end_time}`
+                              : 'No slot selected'}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex  flex-col bg-slate-50">
+                  <div className=" flex-1 overflow-y-auto p-6">
+                    {slot?.roster_list?.length ? (
+                      <div className="grid min-h-56 h-56 grid-cols-2 gap-3 xl:grid-cols-3">
+                        {slot.roster_list.map((item) => {
+                          const isAvailable = item.status === 'Available';
+
+                          const isSelected =
+                            approveData.start_time === item.start_time &&
+                            approveData.end_time === item.end_time;
+
+                          return (
+                            <button
+                              key={`${item.start_time}-${item.end_time}`}
+                              type="button"
+                              disabled={!isAvailable}
+                              onClick={() => {
+                                if (!isAvailable) return;
+
+                                handleChange({
+                                  target: {
+                                    name: 'start_time',
+                                    value: item.start_time,
+                                  },
+                                } as React.ChangeEvent<HTMLInputElement>);
+
+                                handleChange({
+                                  target: {
+                                    name: 'end_time',
+                                    value: item.end_time,
+                                  },
+                                } as React.ChangeEvent<HTMLInputElement>);
+                              }}
+                              className={`group rounded-xl border p-4 text-left transition-all ${
+                                isSelected
+                                  ? 'border-primary-500 bg-primary-50 ring-2 ring-primary-500/20'
+                                  : isAvailable
+                                  ? 'border-slate-200 bg-white hover:-translate-y-0.5 hover:border-primary-300 hover:shadow-md'
+                                  : 'cursor-not-allowed border-slate-200 bg-slate-100 opacity-60'
+                              }`}
+                            >
+                              <div className="mb-4 flex items-center justify-between">
+                                <span
+                                  className={`rounded-full px-2 py-1 text-[10px] font-semibold ${
+                                    isSelected
+                                      ? 'bg-primary-100 text-primary-700'
+                                      : isAvailable
+                                      ? 'bg-emerald-50 text-emerald-700'
+                                      : 'bg-red-50 text-red-600'
+                                  }`}
+                                >
+                                  {isSelected ? 'Selected' : item.status}
+                                </span>
+                              </div>
+
+                              <p
+                                className={`text-base font-bold ${
+                                  isSelected ? 'text-primary-700' : 'text-slate-800'
+                                }`}
+                              >
+                                {item.start_time}
+                              </p>
+
+                              <p className="mt-1 text-xs text-slate-500">to {item.end_time}</p>
+
+                              {isSelected && (
+                                <div className="mt-3 flex items-center gap-1.5 text-xs font-medium text-primary-600">
+                                  <Check className="h-3.5 w-3.5" />
+                                  Selected
+                                </div>
+                              )}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    ) : (
+                      <div className="flex items-center h-full justify-center">
+                        <div className="text-center">
+                          <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-white shadow-sm">
+                            <Stethoscope className="h-5 w-5 text-slate-400" />
+                          </div>
+
+                          <p className="text-sm font-semibold text-slate-700">No slots available</p>
+
+                          <p className="mt-1 text-xs text-slate-500">
+                            There are no available slots for the selected date.
+                          </p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex shrink-0 items-center justify-between gap-3 border-t border-slate-200 bg-white px-6 py-4">
+                <p className="hidden text-xs text-slate-500 sm:block">
+                  Select an available slot before approving.
+                </p>
+
+                <div className="ml-auto flex gap-3">
+                  <button
+                    type="button"
+                    onClick={() => setApproveModal(false)}
+                    className="rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-sm font-medium text-slate-600 transition hover:bg-slate-50"
+                  >
+                    Cancel
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={handleApprove}
+                    disabled={!approveData.start_time || !approveData.end_time}
+                    className="flex items-center gap-2 rounded-xl bg-emerald-500 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-emerald-600 disabled:cursor-not-allowed disabled:opacity-50"
+                  >
+                    <Check size={16} />
+                    Confirm Approval
+                  </button>
+                </div>
               </div>
             </div>
           </div>

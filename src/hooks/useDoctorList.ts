@@ -1,9 +1,8 @@
 import { getDoctorList } from '@/services/user';
 import { useDoctorListStore } from '@/store/DoctorStore';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 export const useDoctorList = (token: any) => {
-  // const [doctorList, setDoctorList] = useState([]);
   const { setDoctorList, doctor } = useDoctorListStore();
   useEffect(() => {
     const fetchCounselors = async () => {

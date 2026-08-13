@@ -1,37 +1,18 @@
-import { DoctorSlotProps, Roster } from '@/Interfaces/DoctorSlot';
-import { getRoasterList } from '@/services/user';
-import { useAuthStore } from '@/store/authStore';
-import { useEffect, useState } from 'react';
-import { Edit, Edit3, Trash2 } from 'lucide-react';
+import { DoctorSlotProps } from '@/Interfaces/DoctorSlot';
+import { useState } from 'react';
+import { Edit, Trash2 } from 'lucide-react';
+import { useDoctorSlot } from '@/hooks/useDoctorSlot';
 
 const DoctorSlot: React.FC<DoctorSlotProps> = ({
   selectedDoctorId,
   onEditAction,
   onDeleteAction,
 }) => {
-  const { auth } = useAuthStore();
-
-  const [slot, setSlot] = useState<Roster | null>(null);
-
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
-
-  useEffect(() => {
-    const fetchDoctorSlot = async () => {
-      if (!auth?.access || !selectedDoctorId) return;
-      try {
-        const res = await getRoasterList(auth.access, selectedDoctorId, selectedDate);
-        if (res.data?.length) {
-          setSlot(res.data[0]);
-        } else {
-          setSlot(null);
-        }
-      } catch (error) {
-        console.error('Failed to fetch roster:', error);
-        setSlot(null);
-      }
-    };
-    fetchDoctorSlot();
-  }, [auth?.access, selectedDoctorId, selectedDate]);
+  const { slot } = useDoctorSlot({
+    selectedDoctorId,
+    selectedDate,
+  });
 
   return (
     <div className="mt-6 ">

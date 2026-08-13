@@ -16,7 +16,7 @@ export function Sidebar() {
     },
     {
       name: 'Counsellor',
-      href: '/onboard-doctor',
+      href: '/onboard-counsellor',
       icon: UserPlus,
     },
     {

@@ -6,6 +6,8 @@ import CounsellorFormWrapper from './CounsellorFormWrapper';
 import { getCounsellorDetails, getCounsellorList } from '@/services/user';
 import { useCounsellorListStore } from '@/store/counsellorStore';
 import CounsellorDetails from './CounsellorDetails';
+import counsellorImage from '@/../public/avatars/counsellor.png';
+import Image from 'next/image';
 
 export default function ProfileData() {
   const { auth } = useAuthStore();
@@ -106,8 +108,15 @@ export default function ProfileData() {
                 }`}
               >
                 <div className="flex items-center space-x-4">
-                  <div className="h-10 w-10 flex items-center justify-center rounded-full bg-gradient-to-br from-primary-400 to-primary-600 text-white font-bold text-lg shadow-inner">
-                    {item.name.trim().charAt(0).toUpperCase()}
+                  <div className="h-10 w-10 flex items-center justify-center rounded-full bg-linear-to-t from-primary-200 to-white text-white font-bold text-lg shadow-inner">
+                    {/* {item.name.trim().charAt(0).toUpperCase()} */}
+                    <Image
+                      alt="patient"
+                      src={counsellorImage}
+                      width={50}
+                      height={50}
+                      className="h-15 w-15 object-contain"
+                    />
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-semibold text-gray-900 dark:text-white truncate group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
