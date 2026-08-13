@@ -31,8 +31,8 @@ export default function RootLayout({
     >
       <body className="h-full flex overflow-hidden bg-background text-foreground font-sans">
         {children}
+        <ToastContainer />
       </body>
-      <ToastContainer />
     </html>
   );
 }

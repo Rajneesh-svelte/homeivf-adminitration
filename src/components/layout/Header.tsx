@@ -3,13 +3,15 @@ import { Search, Bell, Menu } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useAuthStore } from '@/store/authStore';
+import { useSidebarStore } from '@/store/sidebarStore';
 
 export function Header() {
   const { auth } = useAuthStore();
+  const toggleSidebar = useSidebarStore((state) => state.toggleSidebar);
   return (
     <header className="h-16 shrink-0 border-b border-border bg-white dark:bg-sidebar flex items-center justify-between px-4 sm:px-6 z-10 sticky top-0 backdrop-blur-md bg-opacity-80">
       <div className="flex items-center flex-1">
-        <Button variant="ghost" size="icon" className="md:hidden mr-2">
+        <Button variant="ghost" size="icon" className="md:hidden mr-2" onClick={toggleSidebar}>
           <Menu className="h-5 w-5" />
         </Button>
         <div className="max-w-md w-full hidden sm:block relative">

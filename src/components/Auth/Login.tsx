@@ -5,6 +5,7 @@ import { HeartPulse, Mail, Lock, ArrowRight } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { login } from '@/hooks/useAuth';
 import { useAuthStore } from '@/store/authStore';
+import { setCookie } from 'cookies-next';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -26,6 +27,7 @@ const Login = () => {
       }
       if (token) {
         localStorage.setItem('token', token);
+        setCookie('token', token, { maxAge: 60 * 60 * 24 * 30, path: '/' });
       }
       router.push('/');
     } catch (error: any) {
