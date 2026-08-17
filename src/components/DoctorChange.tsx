@@ -48,6 +48,8 @@ const DoctorChange = () => {
       };
       try {
         const res = await approveRequest(auth?.access, data);
+        setApproveModal(false);
+        window.location.reload();
       } catch (err) {
         console.log('Approved not requested');
       }
@@ -62,6 +64,8 @@ const DoctorChange = () => {
       try {
         const res = await rejectRequest(auth?.access, data);
         console.log('res approved', res);
+        setRejectModal(false);
+        window.location.reload();
       } catch (err) {
         console.log('Approved not requested');
       }
