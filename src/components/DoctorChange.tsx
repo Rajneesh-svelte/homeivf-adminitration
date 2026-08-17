@@ -381,6 +381,10 @@ const DoctorChange = () => {
                             type="time"
                             name="start_time"
                             value={approveData.start_time}
+                            onKeyDown={(e) => e.preventDefault()}
+                            onPaste={(e) => e.preventDefault()}
+                            onDrop={(e) => e.preventDefault()}
+                            readOnly
                             onChange={handleChange}
                             className="h-11 w-full rounded-xl border border-slate-200 bg-white px-4 text-sm text-slate-700 outline-none transition focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10"
                           />
@@ -393,6 +397,10 @@ const DoctorChange = () => {
                             type="time"
                             name="end_time"
                             value={approveData.end_time}
+                            onKeyDown={(e) => e.preventDefault()}
+                            onPaste={(e) => e.preventDefault()}
+                            onDrop={(e) => e.preventDefault()}
+                            readOnly
                             onChange={handleChange}
                             className="h-11 w-full rounded-xl border border-slate-200 bg-white px-4 text-sm text-slate-700 outline-none transition focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10"
                           />
@@ -471,7 +479,7 @@ const DoctorChange = () => {
                                       : 'bg-red-50 text-red-600'
                                   }`}
                                 >
-                                  {isSelected ? 'Selected' : item.status}
+                                  {isSelected ? '  Selected' : item.status}
                                 </span>
                               </div>
 
@@ -485,12 +493,12 @@ const DoctorChange = () => {
 
                               <p className="mt-1 text-xs text-slate-500">to {item.end_time}</p>
 
-                              {isSelected && (
+                              {/* {isSelected && (
                                 <div className="mt-3 flex items-center gap-1.5 text-xs font-medium text-primary-600">
                                   <Check className="h-3.5 w-3.5" />
                                   Selected
                                 </div>
-                              )}
+                              )} */}
                             </button>
                           );
                         })}
