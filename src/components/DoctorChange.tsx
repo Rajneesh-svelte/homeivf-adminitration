@@ -204,7 +204,7 @@ const DoctorChange = () => {
               requestList.results.map((item: any) => (
                 <tr
                   key={item.request_id}
-                  className="group transition-colors hover:bg-primary-50/50"
+                  className="group transition-colors hover:bg-primary-100 border-b border-slate-200"
                 >
                   <td className="px-8 py-6">
                     <div className="flex items-center gap-4">
