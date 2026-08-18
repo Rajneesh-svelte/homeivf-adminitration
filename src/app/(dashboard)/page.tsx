@@ -139,10 +139,10 @@ export default function Home() {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h2 className="text-3xl font-bold font-heading text-gray-900 dark:text-white tracking-tight">
+          <h2 className="text-3xl font-bold font-heading text-foreground tracking-tight">
             Dashboard Overview
           </h2>
-          <p className="text-gray-500 dark:text-gray-400 mt-2 text-lg">
+          <p className="text-gray-500 mt-2 text-lg">
             Welcome back! Here&apos;s a snapshot of what&apos;s happening today.
           </p>
         </div>
@@ -159,7 +159,7 @@ export default function Home() {
         {kpis.map((kpi, idx) => (
           <div
             key={idx}
-            className="bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-md transition-shadow duration-300 relative overflow-hidden group"
+            className="bg-card rounded-2xl p-6 border border-border shadow-sm hover:shadow-md transition-shadow duration-300 relative overflow-hidden group"
           >
             <div className="absolute -right-6 -top-6 opacity-5 dark:opacity-10 transition-transform duration-500 group-hover:scale-110">
               <kpi.icon size={120} />
@@ -168,15 +168,15 @@ export default function Home() {
               <div className={`p-3 rounded-xl ${kpi.bg} ${kpi.color}`}>
                 <kpi.icon className="w-6 h-6" />
               </div>
-              <div className="flex items-center text-sm font-medium text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-gray-700 px-2 py-1 rounded-lg">
+              <div className="flex items-center text-sm font-medium text-gray-500 bg-background px-2 py-1 rounded-lg">
                 <ArrowUpRight className="w-4 h-4 mr-1 text-green-500" />
                 Latest
               </div>
             </div>
             <div>
-              <h3 className="text-gray-500 dark:text-gray-400 text-sm font-medium">{kpi.title}</h3>
-              <p className="text-3xl font-bold text-gray-900 dark:text-white mt-1">{kpi.value}</p>
-              <p className="text-xs text-gray-500 dark:text-gray-400 mt-2 font-medium">
+              <h3 className="text-gray-500 text-sm font-medium">{kpi.title}</h3>
+              <p className="text-3xl font-bold text-foreground mt-1">{kpi.value}</p>
+              <p className="text-xs text-gray-500 mt-2 font-medium">
                 {kpi.trend}
               </p>
             </div>
@@ -187,8 +187,8 @@ export default function Home() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-8">
           {/* Quick Actions */}
-          <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-100 dark:border-gray-700 shadow-sm">
-            <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-6 flex items-center">
+          <div className="bg-card rounded-2xl p-6 border border-border shadow-sm">
+            <h3 className="text-lg font-bold text-foreground mb-6 flex items-center">
               <Award className="w-5 h-5 mr-2 text-indigo-500" />
               Quick Actions
             </h3>
@@ -197,16 +197,16 @@ export default function Home() {
                 <Link
                   key={idx}
                   href={action.href}
-                  className={`flex items-start p-4 rounded-xl border transition-all duration-200 hover:-translate-y-1 hover:shadow-md ${action.color} dark:bg-gray-700 dark:border-gray-600 dark:hover:bg-gray-600`}
+                  className={`flex items-start p-4 rounded-xl border transition-all duration-200 hover:-translate-y-1 hover:shadow-md ${action.color}   dark:hover:bg-gray-600`}
                 >
-                  <div className="p-2 bg-white/60 dark:bg-gray-800 rounded-lg shrink-0">
-                    <action.icon className="w-6 h-6 text-gray-700 dark:text-gray-200" />
+                  <div className="p-2 bg-card/60 rounded-lg shrink-0">
+                    <action.icon className="w-6 h-6 text-gray-700" />
                   </div>
                   <div className="ml-4 flex-1">
-                    <h4 className="text-sm font-bold text-gray-900 dark:text-white">
+                    <h4 className="text-sm font-bold text-foreground">
                       {action.title}
                     </h4>
-                    <p className="text-xs text-gray-600 dark:text-gray-300 mt-1">{action.desc}</p>
+                    <p className="text-xs text-gray-600 mt-1">{action.desc}</p>
                   </div>
                   <ChevronRight className="w-5 h-5 text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity" />
                 </Link>
@@ -215,9 +215,9 @@ export default function Home() {
           </div>
 
           {/* Recent Activity */}
-          <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-100 dark:border-gray-700 shadow-sm">
+          <div className="bg-card rounded-2xl p-6 border border-border shadow-sm">
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-lg font-bold text-gray-900 dark:text-white flex items-center">
+              <h3 className="text-lg font-bold text-foreground flex items-center">
                 <Activity className="w-5 h-5 mr-2 text-blue-500" />
                 Recent Activity
               </h3>
@@ -235,21 +235,21 @@ export default function Home() {
                     ${item.type === 'info' ? 'bg-blue-100 text-blue-600' : ''}
                     ${
                       item.type === 'default'
-                        ? 'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-300'
+                        ? 'bg-gray-100 text-gray-600  '
                         : ''
                     }
                   `}
                   >
                     <item.icon className="w-4 h-4" />
                   </div>
-                  <div className="ml-4 flex-1 border-b border-gray-100 dark:border-gray-700 pb-4 group-last:border-0 group-last:pb-0">
-                    <p className="text-sm text-gray-800 dark:text-gray-200">
-                      <span className="font-semibold text-gray-900 dark:text-white">
+                  <div className="ml-4 flex-1 border-b border-border pb-4 group-last:border-0 group-last:pb-0">
+                    <p className="text-sm text-foreground">
+                      <span className="font-semibold text-foreground">
                         {item.user}
                       </span>{' '}
                       {item.action}
                     </p>
-                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">{item.time}</p>
+                    <p className="text-xs text-gray-500 mt-1">{item.time}</p>
                   </div>
                 </div>
               ))}
@@ -272,7 +272,7 @@ export default function Home() {
                 {todayRoster.map((doc, idx) => (
                   <div
                     key={idx}
-                    className="bg-white/10 backdrop-blur-md rounded-xl p-4 border border-white/10 hover:bg-white/15 transition-colors"
+                    className="bg-card/10 backdrop-blur-md rounded-xl p-4 border border-white/10 hover:bg-card/15 transition-colors"
                   >
                     <div className="flex justify-between items-start">
                       <div>
@@ -299,7 +299,7 @@ export default function Home() {
               </div>
               <Link
                 href="/roaster-form"
-                className="mt-6 block w-full py-3 px-4 bg-white/10 hover:bg-white/20 text-center rounded-xl text-sm font-medium transition-all backdrop-blur-sm border border-white/10 text-white"
+                className="mt-6 block w-full py-3 px-4 bg-card/10 hover:bg-card/20 text-center rounded-xl text-sm font-medium transition-all backdrop-blur-sm border border-white/10 text-white"
               >
                 View Full Schedule
               </Link>

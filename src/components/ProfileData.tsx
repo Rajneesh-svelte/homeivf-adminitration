@@ -64,11 +64,11 @@ export default function ProfileData() {
 
   if (loading) {
     return (
-      <div className=" p-6 max-w-md border border-gray-200 dark:border-gray-800 rounded-2xl bg-white/50 dark:bg-gray-900/50 backdrop-blur-xl shadow-lg animate-pulse">
-        <div className="h-7 w-48 bg-gray-200 dark:bg-gray-700 rounded-lg mb-6"></div>
-        <div className="grid grid-cols-1  gap-4">
+      <div className="p-6 max-w-md border border-border rounded-2xl bg-card/50 backdrop-blur-xl shadow-lg animate-pulse">
+        <div className="h-7 w-48 bg-gray-200 rounded-lg mb-6"></div>
+        <div className="grid grid-cols-1 gap-4">
           {[...Array(8)].map((_, i) => (
-            <div key={i} className="h-16 bg-gray-200 dark:bg-gray-700 rounded-xl"></div>
+            <div key={i} className="h-16 bg-gray-200 rounded-xl"></div>
           ))}
         </div>
       </div>
@@ -77,11 +77,11 @@ export default function ProfileData() {
 
   if (!counsellor || counsellor.length === 0) {
     return (
-      <div className="mt-6 p-6 border border-gray-200 dark:border-gray-800 rounded-2xl bg-white/50 dark:bg-gray-900/50 backdrop-blur-xl shadow-lg">
-        <h3 className="text-xl font-bold font-heading text-gray-900 dark:text-white mb-4">
+      <div className="mt-6 p-6 border border-border rounded-2xl bg-card/50 backdrop-blur-xl shadow-lg">
+        <h3 className="text-xl font-bold font-heading text-foreground mb-4">
           Counselors List
         </h3>
-        <p className="text-gray-500 dark:text-gray-400">No counselors found.</p>
+        <p className="text-gray-500">No counselors found.</p>
       </div>
     );
   }
@@ -89,9 +89,9 @@ export default function ProfileData() {
   return (
     <div className="flex flex-col gap-4 w-full">
       <div className="flex flex-col md:flex-row gap-4 w-full">
-        <div className="p-6 border w-full md:max-w-md border-gray-200 dark:border-gray-800 rounded-2xl bg-white/60 dark:bg-gray-900/60 backdrop-blur-xl shadow-xl transition-all duration-300 h-[70vh] overflow-y-auto">
+        <div className="p-6 border w-full md:max-w-md border-border rounded-2xl bg-card/60 backdrop-blur-xl shadow-xl transition-all duration-300 h-[70vh] overflow-y-auto">
           <div className="flex items-center justify-between mb-6">
-            <h3 className="text-2xl font-bold font-heading text-gray-900 dark:bg-gradient-to-r dark:from-blue-400 dark:to-indigo-400 dark:bg-clip-text dark:text-transparent">
+            <h3 className="text-2xl font-bold font-heading text-foreground dark:bg-gradient-to-r dark:from-blue-400 dark:to-indigo-400 dark:bg-clip-text dark:text-transparent">
               Available Counselors
             </h3>
           </div>
@@ -104,7 +104,7 @@ export default function ProfileData() {
                 className={`group p-4 rounded-xl border shadow-sm hover:shadow-md transition-all duration-200 ease-in-out cursor-pointer hover:-translate-y-1 ${
                   selectedId === item.id
                     ? 'bg-blue-50 dark:bg-blue-900/30 border-blue-500 dark:border-blue-500 ring-2 ring-blue-200 dark:ring-blue-900'
-                    : 'bg-white dark:bg-gray-800/80 border-gray-100 dark:border-gray-700 hover:border-blue-300 dark:hover:border-blue-700'
+                    : 'bg-card  border-border  hover:border-blue-300 dark:hover:border-blue-700'
                 }`}
               >
                 <div className="flex items-center space-x-4">
@@ -119,10 +119,10 @@ export default function ProfileData() {
                     />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-semibold text-gray-900 dark:text-white truncate group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                    <p className="text-sm font-semibold text-foreground truncate group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                       {item.name.trim() || 'Unknown'}
                     </p>
-                    <p className="text-xs text-gray-500 dark:text-gray-400 truncate mt-0.5">
+                    <p className="text-xs text-gray-500 truncate mt-0.5">
                       ID: {item.id}
                     </p>
                   </div>
@@ -137,7 +137,7 @@ export default function ProfileData() {
         </div>
       </div>
 
-      <div className="p-6 rounded-2xl border border-gray-200 dark:border-gray-800 bg-white/60 dark:bg-gray-900/60 backdrop-blur-xl shadow-xl w-full">
+      <div className="p-6 rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-xl w-full">
         <CounsellorFormWrapper
           counsellorId={selectedId}
           initialData={counsellorData}

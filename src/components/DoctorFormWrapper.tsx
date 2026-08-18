@@ -435,9 +435,9 @@ const DoctorFormWrapper: React.FC = () => {
     <>
       <div className="flex flex-col gap-4 w-full">
         <div className="flex flex-col md:flex-row gap-4 w-full">
-          <div className="p-6 border w-full md:max-w-md border-gray-200 dark:border-gray-800 rounded-2xl bg-white/60 dark:bg-gray-900/60 backdrop-blur-xl shadow-xl transition-all duration-300 h-[70vh] overflow-y-auto">
+          <div className="p-6 border w-full md:max-w-md border-border rounded-2xl bg-card/60 backdrop-blur-xl shadow-xl transition-all duration-300 h-[70vh] overflow-y-auto">
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-2xl font-bold font-heading text-gray-900 dark:bg-gradient-to-r dark:from-blue-400 dark:to-indigo-400 dark:bg-clip-text dark:text-transparent">
+              <h3 className="text-2xl font-bold font-heading text-foreground dark:bg-gradient-to-r dark:from-blue-400 dark:to-indigo-400 dark:bg-clip-text dark:text-transparent">
                 Available Doctors
               </h3>
             </div>
@@ -450,7 +450,7 @@ const DoctorFormWrapper: React.FC = () => {
                   className={`group p-4 rounded-xl border shadow-sm hover:shadow-md transition-all duration-200 ease-in-out cursor-pointer hover:-translate-y-1 ${
                     selectedId === item.id
                       ? 'bg-blue-50 dark:bg-blue-900/30 border-blue-500 dark:border-blue-500 ring-2 ring-blue-200 dark:ring-blue-900'
-                      : 'bg-white dark:bg-gray-800/80 border-gray-100 dark:border-gray-700 hover:border-blue-300 dark:hover:border-blue-700'
+                      : 'bg-card  border-border  hover:border-blue-300 dark:hover:border-blue-700'
                   }`}
                 >
                   <div className="flex items-center space-x-4">
@@ -464,10 +464,10 @@ const DoctorFormWrapper: React.FC = () => {
                       />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-semibold text-gray-900 dark:text-white truncate group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                      <p className="text-sm font-semibold text-foreground truncate group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                         {item.full_name.trim() || 'Unknown'}
                       </p>
-                      <p className="text-xs text-gray-500 dark:text-gray-400 truncate mt-0.5">
+                      <p className="text-xs text-gray-500 truncate mt-0.5">
                         ID: {item.id}
                       </p>
                     </div>
@@ -485,7 +485,7 @@ const DoctorFormWrapper: React.FC = () => {
             />
           </div>
         </div>
-        <div className="p-6 flex-1 rounded-2xl border border-gray-200 dark:border-gray-800  bg-white/60 dark:bg-gray-900/60 backdrop-blur-xl shadow-xl ">
+        <div className="p-6 flex-1 rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-xl">
           <div className="flex flex-col relative w-full">
             {isEditMode && onReset && (
               <div className="absolute right-0 top-0 z-10 flex justify-end">
@@ -507,8 +507,8 @@ const DoctorFormWrapper: React.FC = () => {
           </div>
         </div>
         {isCertificateModalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/50 backdrop-blur-sm ">
-            <div className="relative w-full max-w-lg bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/50 backdrop-blur-sm">
+            <div className="relative w-full max-w-lg bg-card rounded-2xl shadow-xl p-6">
               <button
                 type="button"
                 onClick={() => setIsCertificateModalOpen(false)}

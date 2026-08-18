@@ -9,17 +9,17 @@ export function Header() {
   const { auth } = useAuthStore();
   const toggleSidebar = useSidebarStore((state) => state.toggleSidebar);
   return (
-    <header className="h-16 shrink-0 border-b border-border bg-white dark:bg-sidebar flex items-center justify-between px-4 sm:px-6 z-10 sticky top-0 backdrop-blur-md bg-opacity-80">
+    <header className="h-16 shrink-0 border-b border-border bg-sidebar flex items-center justify-between px-4 sm:px-6 z-10 sticky top-0 backdrop-blur-md bg-opacity-80">
       <div className="flex items-center flex-1">
         <Button variant="ghost" size="icon" className="md:hidden mr-2" onClick={toggleSidebar}>
           <Menu className="h-5 w-5" />
         </Button>
         <div className="max-w-md w-full hidden sm:block relative">
-          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
+          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-foreground/60" />
           <Input
             type="search"
             placeholder="Search patients, appointments..."
-            className="w-full pl-9 bg-gray-50/50 dark:bg-gray-900/50 border-gray-200 dark:border-gray-800 focus-visible:ring-primary-500 rounded-full"
+            className="w-full pl-9 bg-background/50 border-border focus-visible:ring-primary-500 rounded-full"
           />
         </div>
       </div>

@@ -183,7 +183,7 @@ const RoasterFormWrapper = () => {
 
   return (
     <div className="flex items-center gap-4">
-      <div className=" max-w-2xl w-1/5 p-6 bg-white/60 flex-1 rounded-2xl border border-gray-200 dark:border-gray-800   dark:bg-gray-900/60 backdrop-blur-xl shadow-xl h-screen">
+      <div className="max-w-2xl w-1/5 p-6 bg-card/60 flex-1 rounded-2xl border border-border backdrop-blur-xl shadow-xl h-screen">
         <DynamicForm
           title={editingRoster ? 'Edit Roaster Details' : 'Roaster Details / Form '}
           fields={RoasterForm}
@@ -195,15 +195,15 @@ const RoasterFormWrapper = () => {
         {editingRoster && (
           <button
             onClick={() => setEditingRoster(null)}
-            className="mt-4 w-full py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-700"
+            className="mt-4 w-full py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-card hover:bg-background dark:hover:bg-gray-700"
           >
             Cancel Edit
           </button>
         )}
       </div>
-      <div className="  p-6 bg-white/60 flex-1 rounded-2xl border border-gray-200 dark:border-gray-800   dark:bg-gray-900/60 backdrop-blur-xl shadow-xl h-screen">
+      <div className="p-6 bg-card/60 flex-1 rounded-2xl border border-border backdrop-blur-xl shadow-xl h-screen">
         <div className="flex items-center justify-between mb-6">
-          <h3 className="text-2xl font-bold font-heading  dark:text-gray-50 text-gray-900 dark:from-blue-400 dark:to-indigo-400">
+          <h3 className="text-2xl font-bold font-heading text-foreground dark:from-blue-400 dark:to-indigo-400">
             Slots Preview
           </h3>
         </div>

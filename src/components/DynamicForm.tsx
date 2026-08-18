@@ -76,7 +76,7 @@ const DynamicForm: React.FC<DynamicFormProps> = ({
   return (
     <form className="" onSubmit={handleSubmit}>
       <div className="flex items-center justify-between mb-6">
-        <h3 className="text-2xl font-bold font-heading dark:text-gray-50 text-gray-900 dark:from-blue-400 dark:to-indigo-400">
+        <h3 className="text-2xl font-bold font-heading text-foreground dark:from-blue-400 dark:to-indigo-400">
           {title}
         </h3>
       </div>
@@ -89,7 +89,7 @@ const DynamicForm: React.FC<DynamicFormProps> = ({
               </label>
               {field.type === 'select' ? (
                 field.multiple ? (
-                  <div className="flex flex-wrap gap-2 p-3 border rounded-xl border-gray-200 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-800/50">
+                  <div className="flex flex-wrap gap-2 p-3 border rounded-xl border-border bg-background/50">
                     {field.options?.map((opt) => {
                       const val = String(opt.value);
                       const isSelected = (formData[field.name] || []).includes(val);
@@ -112,7 +112,7 @@ const DynamicForm: React.FC<DynamicFormProps> = ({
                             ${
                               isSelected
                                 ? 'bg-primary-500 text-white border-primary-500 shadow-md shadow-blue-500/20'
-                                : 'bg-white text-gray-700 border-gray-200 hover:border-primary-300 hover:bg-primary-50 dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 dark:hover:bg-gray-700'
+                                : 'bg-card text-gray-700 border-border hover:border-primary-300 hover:bg-primary-50    dark:hover:bg-gray-700'
                             }`}
                         >
                           {opt.label}

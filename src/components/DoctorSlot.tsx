@@ -15,9 +15,9 @@ const DoctorSlot: React.FC<DoctorSlotProps> = ({
   });
 
   return (
-    <div className="mt-6 ">
+    <div className="mt-6">
       <div className="mb-6">
-        <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
+        <label className="mb-2 block text-sm font-medium text-gray-700">
           Select Date
         </label>
 
@@ -67,12 +67,12 @@ const DoctorSlot: React.FC<DoctorSlotProps> = ({
             </div>
           </h2>
 
-          <p className="mb-4 text-sm text-gray-600 dark:text-gray-300">
+          <p className="mb-4 text-sm text-gray-600">
             Selected Date: <span className="font-semibold text-primary-600">{selectedDate}</span>
           </p>
         </>
       )}
-      <div className="  max-h-175  h-175  overflow-auto ">
+      <div className="max-h-175 h-175 overflow-auto">
         {slot?.roster_list?.length ? (
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
             {slot.roster_list.map((item) => {
@@ -104,7 +104,7 @@ const DoctorSlot: React.FC<DoctorSlotProps> = ({
                     </span>
                   </div>
 
-                  <p className="text-sm font-semibold text-gray-800">{item.start_time}</p>
+                  <p className="text-sm font-semibold text-foreground">{item.start_time}</p>
 
                   <p className="text-xs text-gray-500">to {item.end_time}</p>
                 </button>

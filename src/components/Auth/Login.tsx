@@ -48,22 +48,22 @@ const Login = () => {
       <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-blue-400/20 dark:bg-blue-900/30 blur-[100px] pointer-events-none" />
 
       <div className="w-full max-w-2xl p-4 sm:p-6 lg:p-8 z-10 relative">
-        <div className="glass shadow-2xl rounded-2xl sm:rounded-3xl p-6 sm:p-10 border border-white/40 dark:border-white/10 sm:border-gray-200 sm:dark:border-white/10">
+        <div className="glass shadow-2xl rounded-2xl sm:rounded-3xl p-6 sm:p-10 border border-white/40 sm:border-border sm:">
           <div className="flex flex-col items-center mb-8">
             {/* <div className="h-14 w-14 bg-primary-50 dark:bg-primary-900/40 rounded-2xl flex items-center justify-center mb-4 shadow-sm border border-primary-100 dark:border-primary-800">
               <HeartPulse className="h-8 w-8 text-primary-500" />
             </div> */}
-            <h2 className="text-2xl sm:text-3xl font-heading font-bold text-gray-900 dark:text-white mb-2 text-center">
+            <h2 className="text-2xl sm:text-3xl font-heading font-bold text-foreground mb-2 text-center">
               Welcome back
             </h2>
-            <p className="text-sm text-gray-500 dark:text-gray-400 text-center">
+            <p className="text-sm text-gray-500 text-center">
               Enter your credentials to access the admin panel
             </p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-5">
             <div className="space-y-1.5">
-              <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+              <label className="text-sm font-medium text-gray-700">
                 Email Address
               </label>
               <div className="relative">
@@ -74,7 +74,7 @@ const Login = () => {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="block w-full pl-10 pr-3 py-2.5 sm:py-3 border border-gray-200 dark:border-gray-800 rounded-xl leading-5 bg-white/50 dark:bg-black/50 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all sm:text-sm"
+                  className="block w-full pl-10 pr-3 py-2.5 sm:py-3 border border-border rounded-xl leading-5 bg-card/50 text-foreground placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all sm:text-sm"
                   placeholder="admin@homeivf.com"
                   required
                 />
@@ -83,7 +83,7 @@ const Login = () => {
 
             <div className="space-y-1.5">
               <div className="flex items-center justify-between">
-                <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                <label className="text-sm font-medium text-gray-700">
                   Password
                 </label>
               </div>
@@ -95,7 +95,7 @@ const Login = () => {
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="block w-full pl-10 pr-3 py-2.5 sm:py-3 border border-gray-200 dark:border-gray-800 rounded-xl leading-5 bg-white/50 dark:bg-black/50 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all sm:text-sm"
+                  className="block w-full pl-10 pr-3 py-2.5 sm:py-3 border border-border rounded-xl leading-5 bg-card/50 text-foreground placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all sm:text-sm"
                   placeholder="••••••••"
                   required
                 />
@@ -111,7 +111,7 @@ const Login = () => {
               />
               <label
                 htmlFor="remember-me"
-                className="ml-2 block text-sm text-gray-700 dark:text-gray-300 cursor-pointer"
+                className="ml-2 block text-sm text-gray-700 cursor-pointer"
               >
                 Remember me for 30 days
               </label>
