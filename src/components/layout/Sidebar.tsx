@@ -2,10 +2,19 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useRouter } from 'next/navigation';
-import { LayoutDashboard, UserPlus, Stethoscope, UserCog, BadgeCheck, LogOut, X } from 'lucide-react';
+import {
+  LayoutDashboard,
+  UserPlus,
+  Stethoscope,
+  UserCog,
+  BadgeCheck,
+  LogOut,
+  X,
+} from 'lucide-react';
 import { useSidebarStore } from '@/store/sidebarStore';
 import { useEffect } from 'react';
 import { deleteCookie } from 'cookies-next';
+import { useAuthStore } from '@/store/authStore';
 
 export function Sidebar() {
   const pathname = usePathname();
@@ -16,6 +25,8 @@ export function Sidebar() {
   useEffect(() => {
     setIsOpen(false);
   }, [pathname, setIsOpen]);
+  const { auth } = useAuthStore();
+  console.log('auth', auth?.user_role_type);
 
   const navItems = [
     {
@@ -55,6 +66,10 @@ export function Sidebar() {
       icon: BadgeCheck,
     },
   ];
+  const filteredNavItems =
+    auth?.user_role_type === 'CounsellorHead'
+      ? navItems.filter((item) => item.name === 'Doctor Change')
+      : navItems;
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -66,13 +81,13 @@ export function Sidebar() {
     <>
       {/* Mobile Overlay */}
       {isOpen && (
-        <div 
+        <div
           className="fixed inset-0 bg-black/50 z-40 md:hidden"
           onClick={() => setIsOpen(false)}
         />
       )}
-      
-      <aside 
+
+      <aside
         className={`w-64 shrink-0 border-r border-border bg-sidebar flex-col h-full shadow-sm z-50 fixed md:relative md:flex transition-transform duration-300 ease-in-out ${
           isOpen ? 'translate-x-0 flex' : '-translate-x-full hidden md:translate-x-0'
         }`}
@@ -81,12 +96,15 @@ export function Sidebar() {
           <span className="font-heading font-bold text-xl tracking-tight text-primary-700 dark:text-primary-50">
             HomeIVF - <span className="text-xl"> Admin</span>
           </span>
-          <button className="md:hidden text-gray-500 hover:text-gray-700" onClick={() => setIsOpen(false)}>
+          <button
+            className="md:hidden text-gray-500 hover:text-gray-700"
+            onClick={() => setIsOpen(false)}
+          >
             <X className="h-5 w-5" />
           </button>
         </div>
         <nav className="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
-          {navItems.map((item) => {
+          {filteredNavItems.map((item) => {
             const Icon = item.icon;
             const isActive = pathname === item.href;
             return (

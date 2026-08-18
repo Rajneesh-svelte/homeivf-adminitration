@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { HeartPulse, Mail, Lock, ArrowRight } from 'lucide-react';
+import { Mail, Lock, ArrowRight } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { login } from '@/hooks/useAuth';
 import { useAuthStore } from '@/store/authStore';
@@ -11,7 +11,7 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const { setAuth } = useAuthStore();
+  const { setAuth, auth } = useAuthStore();
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -29,7 +29,11 @@ const Login = () => {
         localStorage.setItem('token', token);
         setCookie('token', token, { maxAge: 60 * 60 * 24 * 30, path: '/' });
       }
-      router.push('/');
+      if (auth?.user_role_type === 'CounsellorHead') {
+        router.push('/doctor-change');
+      } else {
+        router.push('/');
+      }
     } catch (error: any) {
       console.error(error);
       alert(error.message || 'Invalid email or password');
