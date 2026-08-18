@@ -1,7 +1,7 @@
 import { FormFieldConfig } from '@/Interfaces/FormField';
 import DynamicForm from './DynamicForm';
 import { BuildingIcon, FileTextIcon } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { createCertificate, getCertificateList } from '@/services/user';
 import { useAuthStore } from '@/store/authStore';
 import { useCertificateStore } from '@/store/certificatelist';
@@ -116,7 +116,7 @@ const CertificateFormWrapper: React.FC<CertificateFormProps> = ({
       }
     };
     fetchCertificateList();
-  }, [auth?.access]);
+  }, [auth?.access, setCertificate]);
 
   return (
     <div>

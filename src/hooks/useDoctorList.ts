@@ -26,6 +26,6 @@ export const useDoctorList = (token: any) => {
       }
     };
     fetchCounselors();
-  }, [token]);
+  }, [token, setDoctorList]);
   return { doctor };
 };

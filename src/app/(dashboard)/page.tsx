@@ -143,7 +143,7 @@ export default function Home() {
             Dashboard Overview
           </h2>
           <p className="text-gray-500 dark:text-gray-400 mt-2 text-lg">
-            Welcome back! Here's a snapshot of what's happening today.
+            Welcome back! Here&apos;s a snapshot of what&apos;s happening today.
           </p>
         </div>
         <div className="flex items-center space-x-3">
@@ -266,7 +266,7 @@ export default function Home() {
             <div className="relative z-10">
               <h3 className="text-lg font-bold flex items-center mb-6 text-indigo-50">
                 <CalendarDays className="w-5 h-5 mr-2 text-indigo-300" />
-                Today's Roster
+                Today&apos;s Roster
               </h3>
               <div className="space-y-4">
                 {todayRoster.map((doc, idx) => (

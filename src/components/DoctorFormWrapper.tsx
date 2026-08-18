@@ -405,7 +405,7 @@ const DoctorFormWrapper: React.FC = () => {
 
     fetchCertificateList();
     fetchArtTreatmentDetails();
-  }, [auth?.access]);
+  }, [auth?.access, setCertificate, setCounsellor]);
 
   useEffect(() => {
     const fetchCounselors = async () => {
@@ -429,7 +429,7 @@ const DoctorFormWrapper: React.FC = () => {
       }
     };
     fetchCounselors();
-  }, [auth?.access]);
+  }, [auth?.access, setCounsellor]);
 
   return (
     <>

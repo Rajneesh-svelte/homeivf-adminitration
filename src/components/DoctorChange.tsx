@@ -1,10 +1,17 @@
 'use client';
-import { approveRequest, getChangeDoctorList, rejectRequest, getChangeDoctorDates, getChangeDoctorSlots } from '@/services/doctorlist';
+import {
+  approveRequest,
+  getChangeDoctorList,
+  rejectRequest,
+  getChangeDoctorDates,
+  getChangeDoctorSlots,
+} from '@/services/doctorlist';
 import { useAuthStore } from '@/store/authStore';
 import { ArrowRight, Check, CircleX, CrossIcon, FileText, Stethoscope } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import patientpartner from '@/../public/avatars/patientpartner.png';
 import Image from 'next/image';
+import doctorchange from '@/../public/avatars/doctorchange.png';
 
 const DoctorChange = () => {
   const { auth } = useAuthStore();
@@ -25,8 +32,6 @@ const DoctorChange = () => {
 
   const [availableDates, setAvailableDates] = useState<string[]>([]);
   const [availableSlots, setAvailableSlots] = useState<any[]>([]);
-  const [doctorInfo, setDoctorInfo] = useState<any>(null);
-  const [previousAppointment, setPreviousAppointment] = useState<any>(null);
 
   useEffect(() => {
     const fetchDates = async () => {
@@ -35,10 +40,9 @@ const DoctorChange = () => {
           const res = await getChangeDoctorDates(auth.access, selectedRequest.requestId);
           if (res?.success) {
             setAvailableDates(res.data.dates);
-            setDoctorInfo(res.data.doctor_info);
           }
         } catch (err) {
-          console.error(err);
+          console.log(err);
         }
       }
     };
@@ -47,21 +51,29 @@ const DoctorChange = () => {
 
   useEffect(() => {
     const fetchSlots = async () => {
-      if (selectedRequest.requestId && approveData.appointment_date && approveModal && auth?.access) {
+      if (
+        selectedRequest.requestId &&
+        approveData.appointment_date &&
+        approveModal &&
+        auth?.access
+      ) {
         try {
-          const res = await getChangeDoctorSlots(auth.access, selectedRequest.requestId, approveData.appointment_date);
+          const res = await getChangeDoctorSlots(
+            auth.access,
+            selectedRequest.requestId,
+            approveData.appointment_date
+          );
           if (res?.success) {
             setAvailableSlots(res.data.slots);
-            setPreviousAppointment(res.data.previous_appointment);
           } else {
-             setAvailableSlots([]);
+            setAvailableSlots([]);
           }
         } catch (err) {
-          console.error(err);
+          console.log(err);
           setAvailableSlots([]);
         }
       } else {
-         setAvailableSlots([]);
+        setAvailableSlots([]);
       }
     };
     fetchSlots();
@@ -84,7 +96,7 @@ const DoctorChange = () => {
         end_time: approveData.end_time,
       };
       try {
-        const res = await approveRequest(auth?.access, data);
+        await approveRequest(auth?.access, data);
         setApproveModal(false);
         window.location.reload();
       } catch (err) {
@@ -99,8 +111,7 @@ const DoctorChange = () => {
         request_id: selectedRequest?.requestId,
       };
       try {
-        const res = await rejectRequest(auth?.access, data);
-        console.log('res approved', res);
+        await rejectRequest(auth?.access, data);
         setRejectModal(false);
         window.location.reload();
       } catch (err) {
@@ -125,23 +136,32 @@ const DoctorChange = () => {
 
   return (
     <div className="w-full overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-      <div className="flex items-center justify-between border-b border-slate-200 px-7 py-6">
+      <div className="flex flex-col justify-between border-b border-slate-200 bg-slate-50/50 px-7 py-4 sm:flex-row sm:items-center">
         <div className="flex items-center gap-5">
+          <div className="flex h-24 w-24 shrink-0 items-center justify-center  text-primary-600 ">
+            {/* <Stethoscope size={24} /> */}
+            <Image src={doctorchange} alt="doctochange-icon" height={160} width={160} />
+          </div>
           <div>
-            <h1 className="text-[22px] font-semibold tracking-tight text-slate-900">
+            <h1 className="text-[22px] font-bold tracking-tight text-slate-900">
               Doctor Change Requests
             </h1>
 
-            <p className="mt-1 text-sm text-slate-500">
+            <p className="mt-1 text-sm font-medium text-slate-500">
               Review and manage patient doctor change requests.
             </p>
           </div>
         </div>
 
-        <div className="rounded-xl bg-slate-50 px-5 py-3">
-          <p className="text-xs font-medium text-slate-500">Total Requests</p>
-
-          <p className="mt-1 text-xl font-semibold text-slate-900">{requestList.count}</p>
+        <div className="mt-4 flex items-center gap-3 rounded-xl border border-slate-200 bg-white px-4 py-2.5 shadow-sm sm:mt-0">
+          <div className="flex flex-col">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+              Total Requests
+            </span>
+            <span className="mt-0.5 text-xl font-black leading-none text-slate-800">
+              {requestList.count}
+            </span>
+          </div>
         </div>
       </div>
 
@@ -149,23 +169,27 @@ const DoctorChange = () => {
         <table className="w-full min-w-300 border-collapse">
           <thead>
             <tr className="border-b border-slate-200">
-              <th className="w-[26%] px-8 py-5 text-left text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+              <th className="w-[14%] px-8 py-5 text-left text-[11px] font-semibold uppercase tracking-wider text-slate-500">
                 Patient
               </th>
 
-              <th className="w-[13%] px-6 py-5 text-left text-[11px] font-semibold uppercase tracking-wider text-slate-500">
-                UHID
-              </th>
-
-              <th className="w-[25%] px-6 py-5 text-left text-[11px] font-semibold uppercase tracking-wider text-slate-500">
-                Doctor Change
-              </th>
-
-              <th className="w-[17%] px-6 py-5 text-left text-[11px] font-semibold uppercase tracking-wider text-slate-500">
-                Reason
+              <th className="w-[14%] px-6 py-5 text-left text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+                Requested On
               </th>
 
               <th className="w-[10%] px-6 py-5 text-left text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+                UHID
+              </th>
+
+              <th className="w-[22%] px-6 py-5 text-left text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+                Doctor Change
+              </th>
+
+              <th className="w-[22%] px-6 py-5 text-left text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+                Reason
+              </th>
+
+              <th className="w-[9%] px-6 py-5 text-left text-[11px] font-semibold uppercase tracking-wider text-slate-500">
                 Status
               </th>
 
@@ -180,26 +204,25 @@ const DoctorChange = () => {
               requestList.results.map((item: any) => (
                 <tr
                   key={item.request_id}
-                  className="group transition-colors hover:bg-primary-200/30"
+                  className="group transition-colors hover:bg-primary-50/50"
                 >
                   <td className="px-8 py-6">
                     <div className="flex items-center gap-4">
-                      <div className="flex h-15 w-15 shrink-0 items-center bg-linear-to-t  from-primary-400 to-white  justify-center overflow-hidden rounded-full">
+                      <div className="flex h-12 w-12 shrink-0 items-center bg-linear-to-t from-primary-400 to-white justify-center overflow-hidden rounded-full shadow-sm ring-2 ring-white">
                         <Image
                           alt="patient"
                           src={patientpartner}
-                          width={50}
-                          height={50}
-                          className="h-15 w-15 object-contain"
+                          width={48}
+                          height={48}
+                          className="h-11 w-11 object-contain p-0.5"
                         />
                       </div>
 
                       <div className="min-w-0">
-                        <p className="truncate text-sm font-semibold text-slate-900">
+                        <p className="truncate text-sm font-bold text-slate-900">
                           {item.patient_name}
                         </p>
-
-                        <p className="mt-1 max-w-[240px] truncate text-xs text-slate-400">
+                        <p className="mt-1 max-w-25 truncate text-xs text-slate-400">
                           ID: {item.patient_id}
                         </p>
                       </div>
@@ -207,29 +230,59 @@ const DoctorChange = () => {
                   </td>
 
                   <td className="px-6 py-6">
-                    <span className="inline-flex whitespace-nowrap rounded-full bg-slate-100 px-3 py-1.5 text-xs font-medium text-slate-600">
+                    <div className="flex flex-col">
+                      <span className="text-sm font-bold text-slate-800">
+                        {item.created_at
+                          ? new Date(item.created_at).toLocaleDateString('en-GB', {
+                              day: '2-digit',
+                              month: 'short',
+                              year: 'numeric',
+                            })
+                          : 'N/A'}
+                      </span>
+                      <span className="mt-1 text-xs font-medium text-slate-500">
+                        {item.created_at
+                          ? new Date(item.created_at).toLocaleTimeString('en-US', {
+                              hour: '2-digit',
+                              minute: '2-digit',
+                            })
+                          : ''}
+                      </span>
+                    </div>
+                  </td>
+
+                  <td className="px-6 py-6">
+                    <span className="inline-flex whitespace-nowrap rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1 text-xs font-bold tracking-wide text-slate-700 shadow-xs">
                       {item.patient_uhid}
                     </span>
                   </td>
 
                   <td className="px-6 py-6">
-                    <div className="flex items-center gap-4">
-                      <div className="min-w-[125px]">
-                        <p className="text-[11px] font-medium text-slate-400">Current Doctor</p>
-
-                        <p className="mt-1.5 whitespace-nowrap text-sm font-semibold text-slate-800">
+                    <div className="flex items-center gap-2">
+                      <div className="min-w-25 bg-[#f4d7f34d] rounded-xl border border-[#f8d3f6] p-2.5 shadow-xs">
+                        <p className="text-[10px] font-bold uppercase tracking-wider text-pink-400/60">
+                          Current
+                        </p>
+                        <p
+                          className="mt-1 whitespace-nowrap text-xs font-bold text-pink-400 truncate "
+                          title={item.current_doctor}
+                        >
                           {item.current_doctor}
                         </p>
                       </div>
 
-                      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-50">
-                        <ArrowRight size={15} strokeWidth={2} className="text-blue-500" />
+                      <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary-100 shadow-sm ring-2 ring-white">
+                        <ArrowRight size={12} strokeWidth={3} className="text-primary-600" />
                       </div>
 
-                      <div className="min-w-[125px]">
-                        <p className="text-[11px] font-medium text-slate-400">Requested Doctor</p>
-
-                        <p className="mt-1.5 whitespace-nowrap text-sm font-semibold text-teal-600">
+                      <div className="min-w-25 rounded-xl border border-primary-200 bg-primary-50 p-2.5 shadow-xs">
+                        <p className="text-[10px] font-bold uppercase tracking-wider text-primary-500">
+                          Requested
+                        </p>
+                        <p
+                          className="mt-1 whitespace-nowrap text-xs font-bold text-primary-800 truncate"
+                          title={item.requested_doctor}
+                        >
                           {item.requested_doctor}
                         </p>
                       </div>
@@ -237,22 +290,19 @@ const DoctorChange = () => {
                   </td>
 
                   <td className="px-6 py-6">
-                    <p
-                      title={item.reason}
-                      className="max-w-[230px] text-sm leading-5 text-slate-600"
-                    >
+                    <p title={item.reason} className="max-w-50 text-sm leading-5 text-slate-600">
                       {item.reason}
                     </p>
                   </td>
 
                   <td className="px-6 py-6">
                     <span
-                      className={`inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-semibold ${
+                      className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-bold shadow-xs border ${
                         item.status?.toLowerCase() === 'approved'
-                          ? 'bg-emerald-50 text-emerald-700'
+                          ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
                           : item.status?.toLowerCase() === 'rejected'
-                          ? 'bg-red-50 text-red-700'
-                          : 'bg-amber-50 text-amber-700'
+                          ? 'bg-rose-50 text-rose-700 border-rose-200'
+                          : 'bg-amber-50 text-amber-700 border-amber-200'
                       }`}
                     >
                       <span
@@ -260,11 +310,10 @@ const DoctorChange = () => {
                           item.status?.toLowerCase() === 'approved'
                             ? 'bg-emerald-500'
                             : item.status?.toLowerCase() === 'rejected'
-                            ? 'bg-red-500'
+                            ? 'bg-rose-500'
                             : 'bg-amber-500'
                         }`}
                       />
-
                       {item.status}
                     </span>
                   </td>
@@ -283,9 +332,9 @@ const DoctorChange = () => {
                             setApproveData({ appointment_date: '', start_time: '', end_time: '' });
                             setApproveModal(true);
                           }}
-                          className="flex w-25 items-center justify-center gap-1.5 rounded-lg bg-emerald-100 px-3 py-2.5 text-xs font-semibold text-teal-700 hover:bg-emerald-200"
+                          className="flex w-24 items-center justify-center gap-1.5 rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2 text-xs font-bold text-emerald-700 transition hover:bg-emerald-100 hover:text-emerald-800 hover:shadow-sm"
                         >
-                          <Check size={14} />
+                          <Check size={14} strokeWidth={2.5} />
                           Approve
                         </button>
 
@@ -299,14 +348,14 @@ const DoctorChange = () => {
                             });
                             setRejectModal(true);
                           }}
-                          className="flex w-25 items-center justify-center gap-1.5 rounded-lg bg-rose-100 px-3 py-2.5 text-xs font-semibold text-rose-600 hover:bg-rose-200"
+                          className="flex w-24 items-center justify-center gap-1.5 rounded-lg border border-rose-200 bg-rose-50 px-3 py-2 text-xs font-bold text-rose-600 transition hover:bg-rose-100 hover:text-rose-700 hover:shadow-sm"
                         >
-                          <CircleX size={14} />
+                          <CircleX size={14} strokeWidth={2.5} />
                           Reject
                         </button>
                       </div>
                     ) : (
-                      <span className="inline-flex items-center rounded-lg bg-primary-100 px-3 py-1.5 text-xs font-medium text-primary-500">
+                      <span className="inline-flex items-center rounded-lg bg-slate-100 px-3 py-1.5 text-xs font-bold text-slate-500 border border-slate-200">
                         No action
                       </span>
                     )}
@@ -315,16 +364,17 @@ const DoctorChange = () => {
               ))
             ) : (
               <tr>
-                <td colSpan={6} className="px-6 py-20 text-center">
-                  <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-slate-100">
-                    <FileText size={25} className="text-slate-400" />
+                <td colSpan={7} className="px-6 py-24 text-center">
+                  <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full border-2 border-dashed border-slate-200 bg-slate-50">
+                    <FileText size={32} strokeWidth={1.5} className="text-slate-400" />
                   </div>
 
-                  <p className="mt-4 text-sm font-semibold text-slate-700">
-                    No doctor change requests
-                  </p>
+                  <h3 className="mt-5 text-base font-bold text-slate-800">No requests pending</h3>
 
-                  <p className="mt-1 text-xs text-slate-400">New requests will appear here.</p>
+                  <p className="mx-auto mt-1 max-w-sm text-sm text-slate-500">
+                    You&apos;re all caught up! New doctor change requests from patients will appear
+                    here.
+                  </p>
                 </td>
               </tr>
             )}
@@ -364,24 +414,24 @@ const DoctorChange = () => {
               <div className="grid min-h-0 flex-1 grid-cols-1 overflow-hidden lg:grid-cols-[0.9fr_1.1fr]">
                 <div className="overflow-y-auto border-b border-slate-200 p-6 lg:border-b-0 lg:border-r">
                   <div className="space-y-6">
-                    <div className="rounded-2xl border border-primary-100 bg-primary-50 p-5">
-                      <p className="text-xs font-semibold uppercase tracking-wider text-primary-500">
+                    <div className="rounded-2xl border border-primary-100 bg-linear-to-br from-primary-50 to-white p-5 shadow-sm">
+                      <p className="mb-3 text-[10px] font-bold uppercase tracking-wider text-primary-500">
                         Requested Doctor
                       </p>
 
-                      <div className="mt-3 flex items-center justify-between">
+                      <div className="flex items-center gap-4">
+                        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white shadow-sm ring-2 ring-primary-100">
+                          <Stethoscope className="h-6 w-6 text-primary-500" />
+                        </div>
+
                         <div>
-                          <p className="text-lg font-bold text-primary-800">
+                          <p className="text-lg font-black text-slate-900">
                             {selectedRequest?.requestedDoctor}
                           </p>
 
-                          <p className="mt-1 text-xs text-primary-600">
-                            Doctor requested for this appointment
+                          <p className="text-xs font-medium text-slate-500">
+                            Doctor requested by Counsellor
                           </p>
-                        </div>
-
-                        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white shadow-sm">
-                          <Stethoscope className="h-5 w-5 text-primary-500" />
                         </div>
                       </div>
                     </div>
@@ -597,19 +647,29 @@ const DoctorChange = () => {
           </div>
         )}
         {rejectModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-sm">
-            <div className="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl">
-              <h2 className="text-lg font-semibold text-slate-900">Reject Doctor Change</h2>
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 p-4 backdrop-blur-sm">
+            <div className="relative w-full max-w-md overflow-hidden rounded-2xl bg-white p-6 shadow-2xl">
+              <div className="absolute left-0 top-0 h-1 w-full bg-rose-500" />
+              <div className="mb-4 flex items-center gap-4">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-rose-200/50 bg-rose-100 text-rose-600">
+                  <CircleX size={24} strokeWidth={2} />
+                </div>
+                <div>
+                  <h2 className="text-xl font-bold text-slate-900">Reject Request</h2>
+                  <p className="text-sm font-medium text-slate-500">Confirm your action</p>
+                </div>
+              </div>
 
-              <p className="mt-2 text-sm text-slate-500">
-                Are you sure you want to reject this doctor change request?
+              <p className="mt-2 rounded-xl border border-slate-100 bg-slate-50 p-4 text-sm leading-relaxed text-slate-600">
+                Are you sure you want to <span className="font-bold text-slate-800">reject</span>{' '}
+                this doctor change request? The patient will be notified of this decision.
               </p>
 
               <div className="mt-6 flex justify-end gap-3">
                 <button
                   type="button"
                   onClick={() => setRejectModal(false)}
-                  className="rounded-xl border border-slate-200 px-5 py-2.5 text-sm font-medium text-slate-600"
+                  className="rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-sm font-bold text-slate-600 transition-colors hover:bg-slate-50 hover:text-slate-900"
                 >
                   Cancel
                 </button>
@@ -617,7 +677,7 @@ const DoctorChange = () => {
                 <button
                   type="button"
                   onClick={handleReject}
-                  className="rounded-xl bg-rose-500 px-5 py-2.5 text-sm font-semibold text-white hover:bg-rose-600"
+                  className="rounded-xl bg-rose-500 px-5 py-2.5 text-sm font-bold text-white shadow-sm shadow-rose-200 transition-colors hover:bg-rose-600"
                 >
                   Confirm Reject
                 </button>

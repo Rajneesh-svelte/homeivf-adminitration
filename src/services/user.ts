@@ -9,10 +9,11 @@ import {
   GET_DOCTOR_API,
 } from '@/utils/contants';
 import { toast } from 'react-toastify';
+import { fetchApi } from '@/utils/fetchApi';
 
 export async function getCounsellorList(token: string) {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_BACKEND_URL}${COUSELLOR_LIST}`, {
+    const response = await fetchApi(`${process.env.NEXT_PUBLIC_API_BACKEND_URL}${COUSELLOR_LIST}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -28,7 +29,7 @@ export async function getCounsellorList(token: string) {
 
 export async function createCounsellor(formData: CousellorFormData, token: string) {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_BACKEND_URL}${COUSELLOR_LIST}`, {
+    const response = await fetchApi(`${process.env.NEXT_PUBLIC_API_BACKEND_URL}${COUSELLOR_LIST}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -51,7 +52,7 @@ export async function updateCounsellor(
   token: string
 ) {
   try {
-    const response = await fetch(
+    const response = await fetchApi(
       `${process.env.NEXT_PUBLIC_API_BACKEND_URL}${GET_COUNSELLOR_API}${id}/`,
       {
         method: 'PUT',
@@ -77,7 +78,7 @@ export async function updateDoctor(
   token: string
 ) {
   try {
-    const response = await fetch(
+    const response = await fetchApi(
       `${process.env.NEXT_PUBLIC_API_BACKEND_URL}${GET_DOCTOR_API}${id}/`,
       {
         method: 'PUT',
@@ -98,7 +99,7 @@ export async function updateDoctor(
 
 export async function getArtTreatmentForm(token: string) {
   try {
-    const response = await fetch(
+    const response = await fetchApi(
       `${process.env.NEXT_PUBLIC_API_BACKEND_URL}${GET_ART_TREATMENT_API}`,
       {
         headers: {
@@ -117,7 +118,7 @@ export async function getArtTreatmentForm(token: string) {
 
 export async function getCertificateList(token: string) {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_BACKEND_URL}${CERTIFICATE_API}`, {
+    const response = await fetchApi(`${process.env.NEXT_PUBLIC_API_BACKEND_URL}${CERTIFICATE_API}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -133,7 +134,7 @@ export async function getCertificateList(token: string) {
 
 export async function createDoctor(formData: FormData, token: string) {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_BACKEND_URL}${CREATE_DOCTOR_API}`, {
+    const response = await fetchApi(`${process.env.NEXT_PUBLIC_API_BACKEND_URL}${CREATE_DOCTOR_API}`, {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${token}`,
@@ -151,7 +152,7 @@ export async function createDoctor(formData: FormData, token: string) {
 
 export async function createCertificate(formData: FormData, token: string) {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_BACKEND_URL}${CERTIFICATE_API}`, {
+    const response = await fetchApi(`${process.env.NEXT_PUBLIC_API_BACKEND_URL}${CERTIFICATE_API}`, {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${token}`,
@@ -169,7 +170,7 @@ export async function createCertificate(formData: FormData, token: string) {
 
 export async function createRoaster(formData: FormData, token: string) {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_BACKEND_URL}${CREATE_ROASTER_FORM}`, {
+    const response = await fetchApi(`${process.env.NEXT_PUBLIC_API_BACKEND_URL}${CREATE_ROASTER_FORM}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -188,7 +189,7 @@ export async function createRoaster(formData: FormData, token: string) {
 
 export async function updateRoaster(data: any, token: string, id: string) {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_BACKEND_URL}${CREATE_ROASTER_FORM}${id}/`, {
+    const response = await fetchApi(`${process.env.NEXT_PUBLIC_API_BACKEND_URL}${CREATE_ROASTER_FORM}${id}/`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -207,7 +208,7 @@ export async function updateRoaster(data: any, token: string, id: string) {
 
 export async function deleteRoaster(token: string, id: string) {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_BACKEND_URL}${CREATE_ROASTER_FORM}${id}/`, {
+    const response = await fetchApi(`${process.env.NEXT_PUBLIC_API_BACKEND_URL}${CREATE_ROASTER_FORM}${id}/`, {
       method: 'DELETE',
       headers: {
         Authorization: `Bearer ${token}`,
@@ -227,7 +228,7 @@ export async function deleteRoaster(token: string, id: string) {
 
 export async function getDoctorList(token: string) {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_BACKEND_URL}${CREATE_DOCTOR_API}`, {
+    const response = await fetchApi(`${process.env.NEXT_PUBLIC_API_BACKEND_URL}${CREATE_DOCTOR_API}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -243,7 +244,7 @@ export async function getDoctorList(token: string) {
 
 export async function getRoasterList(token: string, id: string, date: string) {
   try {
-    const response = await fetch(
+    const response = await fetchApi(
       `${process.env.NEXT_PUBLIC_API_BACKEND_URL}${CREATE_ROASTER_FORM}?doctor_id=${id}&date=${date}`,
       {
         headers: {
@@ -262,7 +263,7 @@ export async function getRoasterList(token: string, id: string, date: string) {
 
 export async function getDoctorDetailsData(token: string, id: string) {
   try {
-    const response = await fetch(
+    const response = await fetchApi(
       `${process.env.NEXT_PUBLIC_API_BACKEND_URL}${GET_DOCTOR_API}${id}/`,
       {
         headers: {
@@ -281,7 +282,7 @@ export async function getDoctorDetailsData(token: string, id: string) {
 
 export async function getCounsellorDetails(token: string, id: string) {
   try {
-    const response = await fetch(
+    const response = await fetchApi(
       `${process.env.NEXT_PUBLIC_API_BACKEND_URL}${GET_COUNSELLOR_API}${id}/`,
       {
         headers: {

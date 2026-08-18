@@ -43,7 +43,7 @@ export default function ProfileData() {
       }
     };
     fetchCounselors();
-  }, [auth?.access]);
+  }, [auth?.access, setCounsellor]);
 
   useEffect(() => {
     const fetchCounsellorDetails = async () => {
@@ -60,7 +60,7 @@ export default function ProfileData() {
       }
     };
     fetchCounsellorDetails();
-  }, [auth?.access, selectedId]);
+  }, [auth?.access, selectedId, setCounsellor]);
 
   if (loading) {
     return (

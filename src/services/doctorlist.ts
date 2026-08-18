@@ -6,10 +6,11 @@ import {
   CHANGE_DOCTOR_SLOTS_API,
 } from '@/utils/contants';
 import { toast } from 'react-toastify';
+import { fetchApi } from '@/utils/fetchApi';
 
 export async function getChangeDoctorList(token: string) {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_BACKEND_URL}${CHANGE_DOCTOR_LIST}`, {
+    const response = await fetchApi(`${process.env.NEXT_PUBLIC_API_BACKEND_URL}${CHANGE_DOCTOR_LIST}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -26,7 +27,7 @@ export async function getChangeDoctorList(token: string) {
 
 export async function approveRequest(token: string, data: any) {
   try {
-    const response = await fetch(
+    const response = await fetchApi(
       `${process.env.NEXT_PUBLIC_API_BACKEND_URL}${CHANGE_DOCTOR_APPROVE_API}`,
       {
         method: 'PATCH',
@@ -52,7 +53,7 @@ export async function approveRequest(token: string, data: any) {
 
 export async function rejectRequest(token: string, data: any) {
   try {
-    const response = await fetch(
+    const response = await fetchApi(
       `${process.env.NEXT_PUBLIC_API_BACKEND_URL}${REJECT_DOCTOR_CHANGE}`,
       {
         method: 'PATCH',
@@ -77,7 +78,7 @@ export async function rejectRequest(token: string, data: any) {
 
 export async function getChangeDoctorDates(token: string, requestId: string) {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_BACKEND_URL}${CHANGE_DOCTOR_DATES_API}${requestId}/`, {
+    const response = await fetchApi(`${process.env.NEXT_PUBLIC_API_BACKEND_URL}${CHANGE_DOCTOR_DATES_API}${requestId}/`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -93,7 +94,7 @@ export async function getChangeDoctorDates(token: string, requestId: string) {
 
 export async function getChangeDoctorSlots(token: string, requestId: string, appointmentDate: string) {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_BACKEND_URL}${CHANGE_DOCTOR_SLOTS_API}${requestId}/?appointment_date=${appointmentDate}`, {
+    const response = await fetchApi(`${process.env.NEXT_PUBLIC_API_BACKEND_URL}${CHANGE_DOCTOR_SLOTS_API}${requestId}/?appointment_date=${appointmentDate}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

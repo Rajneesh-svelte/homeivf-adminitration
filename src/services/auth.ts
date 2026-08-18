@@ -1,9 +1,10 @@
 import { REFRESH_TOKEN } from '@/utils/contants';
 import { toast } from 'react-toastify';
+import { fetchApi } from '@/utils/fetchApi';
 
 export async function getRefreshToken(token: string) {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_BACKEND_URL}${REFRESH_TOKEN}`, {
+    const response = await fetchApi(`${process.env.NEXT_PUBLIC_API_BACKEND_URL}${REFRESH_TOKEN}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
