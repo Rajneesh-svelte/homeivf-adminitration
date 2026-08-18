@@ -29,7 +29,7 @@ const Login = () => {
         localStorage.setItem('token', token);
         setCookie('token', token, { maxAge: 60 * 60 * 24 * 30, path: '/' });
       }
-      if (auth?.user_role_type === 'CounsellorHead') {
+      if (authData?.user_role_type === 'CounsellorHead') {
         router.push('/doctor-change');
       } else {
         router.push('/');

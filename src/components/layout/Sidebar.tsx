@@ -69,7 +69,7 @@ export function Sidebar() {
   const filteredNavItems =
     auth?.user_role_type === 'CounsellorHead'
       ? navItems.filter((item) => item.name === 'Doctor Change')
-      : navItems;
+      : navItems.filter((item) => item.name !== 'Doctor Change');
 
   const handleLogout = () => {
     localStorage.removeItem('token');
