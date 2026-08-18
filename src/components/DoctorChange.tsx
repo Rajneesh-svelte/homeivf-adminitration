@@ -1,11 +1,10 @@
 'use client';
-import { approveRequest, getChangeDoctorList, rejectRequest } from '@/services/doctorlist';
+import { approveRequest, getChangeDoctorList, rejectRequest, getChangeDoctorDates, getChangeDoctorSlots } from '@/services/doctorlist';
 import { useAuthStore } from '@/store/authStore';
 import { ArrowRight, Check, CircleX, CrossIcon, FileText, Stethoscope } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import patientpartner from '@/../public/avatars/patientpartner.png';
 import Image from 'next/image';
-import { useDoctorSlot } from '@/hooks/useDoctorSlot';
 
 const DoctorChange = () => {
   const { auth } = useAuthStore();
@@ -20,17 +19,55 @@ const DoctorChange = () => {
   });
   const [approveData, setApproveData] = useState({
     appointment_date: '',
-    start_time: ' ',
+    start_time: '',
     end_time: '',
   });
 
-  const { slot } = useDoctorSlot({
-    selectedDate: approveData?.appointment_date,
-    selectedDoctorId: selectedRequest?.requestedDoctorId,
-  });
-  console.log('slot', slot);
+  const [availableDates, setAvailableDates] = useState<string[]>([]);
+  const [availableSlots, setAvailableSlots] = useState<any[]>([]);
+  const [doctorInfo, setDoctorInfo] = useState<any>(null);
+  const [previousAppointment, setPreviousAppointment] = useState<any>(null);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  useEffect(() => {
+    const fetchDates = async () => {
+      if (selectedRequest.requestId && approveModal && auth?.access) {
+        try {
+          const res = await getChangeDoctorDates(auth.access, selectedRequest.requestId);
+          if (res?.success) {
+            setAvailableDates(res.data.dates);
+            setDoctorInfo(res.data.doctor_info);
+          }
+        } catch (err) {
+          console.error(err);
+        }
+      }
+    };
+    fetchDates();
+  }, [selectedRequest.requestId, approveModal, auth?.access]);
+
+  useEffect(() => {
+    const fetchSlots = async () => {
+      if (selectedRequest.requestId && approveData.appointment_date && approveModal && auth?.access) {
+        try {
+          const res = await getChangeDoctorSlots(auth.access, selectedRequest.requestId, approveData.appointment_date);
+          if (res?.success) {
+            setAvailableSlots(res.data.slots);
+            setPreviousAppointment(res.data.previous_appointment);
+          } else {
+             setAvailableSlots([]);
+          }
+        } catch (err) {
+          console.error(err);
+          setAvailableSlots([]);
+        }
+      } else {
+         setAvailableSlots([]);
+      }
+    };
+    fetchSlots();
+  }, [selectedRequest.requestId, approveData.appointment_date, approveModal, auth?.access]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setApproveData((prev) => ({
       ...prev,
@@ -243,6 +280,7 @@ const DoctorChange = () => {
                               requestedDoctor: item.requested_doctor,
                               requestedDoctorId: item?.requested_doctor_id,
                             });
+                            setApproveData({ appointment_date: '', start_time: '', end_time: '' });
                             setApproveModal(true);
                           }}
                           className="flex w-25 items-center justify-center gap-1.5 rounded-lg bg-emerald-100 px-3 py-2.5 text-xs font-semibold text-teal-700 hover:bg-emerald-200"
@@ -353,15 +391,19 @@ const DoctorChange = () => {
                         Appointment Date
                       </label>
 
-                      <input
-                        type="date"
+                      <select
                         name="appointment_date"
-                        onKeyDown={(e) => e.preventDefault()}
                         value={approveData.appointment_date}
-                        min={new Date().toISOString().split('T')[0]}
                         onChange={handleChange}
                         className="h-11 w-full rounded-xl border border-slate-200 bg-white px-4 text-sm text-slate-700 outline-none transition focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10"
-                      />
+                      >
+                        <option value="">Select an available date</option>
+                        {availableDates.map((date) => (
+                          <option key={date} value={date}>
+                            {date}
+                          </option>
+                        ))}
+                      </select>
                     </div>
 
                     <div>
@@ -434,9 +476,9 @@ const DoctorChange = () => {
 
                 <div className="flex  flex-col bg-slate-50">
                   <div className=" flex-1 overflow-y-auto p-6">
-                    {slot?.roster_list?.length ? (
+                    {availableSlots?.length ? (
                       <div className="grid min-h-56 h-56 grid-cols-2 gap-3 xl:grid-cols-3">
-                        {slot.roster_list.map((item) => {
+                        {availableSlots.map((item) => {
                           const isAvailable = item.status === 'Available';
 
                           const isSelected =

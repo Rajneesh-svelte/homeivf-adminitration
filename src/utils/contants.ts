@@ -31,3 +31,9 @@ export const CHANGE_DOCTOR_LIST = '/admin_dashboard/api/v2/change-doctor/list/';
 export const CHANGE_DOCTOR_APPROVE_API = '/admin_dashboard/api/v2/change-doctor/approve/';
 // reject doctor change api + PATCH
 export const REJECT_DOCTOR_CHANGE = '/admin_dashboard/api/v2/change-doctor/reject/';
+
+// refresh token api
+export const REFRESH_TOKEN = '/user/api/v1/refresh/';
+
+export const CHANGE_DOCTOR_DATES_API = '/admin_dashboard/api/v2/change-doctor-dates/';
+export const CHANGE_DOCTOR_SLOTS_API = '/admin_dashboard/api/v2/change-doctor-slot/';
