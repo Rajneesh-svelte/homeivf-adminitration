@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { login } from '@/hooks/useAuth';
 import { useAuthStore } from '@/store/authStore';
 import { setCookie } from 'cookies-next';
+import { toast } from 'react-toastify';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -36,7 +37,7 @@ const Login = () => {
       }
     } catch (error: any) {
       console.error(error);
-      alert(error.message || 'Invalid email or password');
+      toast.error(error.message || 'Invalid email or password');
     } finally {
       setIsLoading(false);
     }

@@ -24,8 +24,9 @@ export function Header() {
         </div>
       </div>
       <div className="flex items-center gap-3">
-        <div className="h-8 w-8 rounded-full bg-linear-to-br from-primary-400 to-primary-600 flex items-center justify-center text-white font-medium text-sm shadow-sm ring-2 ring-white dark:ring-gray-900 cursor-pointer">
-          AD
+        <div className="h-12 w-auto rounded-lg bg-linear-to-br from-primary-400 to-primary-600 flex items-center justify-center text-white font-medium 
+        text-sm shadow-sm ring-2 ring-white dark:ring-gray-900 cursor-pointer px-3 uppercase">
+          {auth?.user_role_type}
         </div>
       </div>
     </header>

@@ -11,10 +11,18 @@ import {
   LogOut,
   X,
 } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 import { useSidebarStore } from '@/store/sidebarStore';
 import { useEffect } from 'react';
 import { deleteCookie } from 'cookies-next';
 import { useAuthStore } from '@/store/authStore';
+
+type NavItem = {
+  name: string;
+  href: string;
+  icon: LucideIcon;
+  roles?: string[];
+};
 
 export function Sidebar() {
   const pathname = usePathname();
@@ -28,48 +36,54 @@ export function Sidebar() {
   const { auth } = useAuthStore();
   console.log('auth', auth?.user_role_type);
 
-  const navItems = [
+  const navItems: NavItem[] = [
     {
       name: 'Dashboard',
       href: '/',
       icon: LayoutDashboard,
+      roles: ['Admin'],
     },
     {
       name: 'Counsellor',
       href: '/onboard-counsellor',
       icon: UserPlus,
+      roles: ['Admin'],
     },
     {
       name: 'Doctor',
       href: '/doctor-create',
       icon: UserCog,
+      roles: ['Admin'],
     },
     {
       name: 'Art Treatment',
       href: '/art-treatment',
       icon: Stethoscope,
+      roles: ['Admin'],
     },
-
     {
       name: 'Certificate',
       href: '/certificate',
       icon: BadgeCheck,
+      roles: ['Admin'],
     },
     {
       name: 'Roaster Form',
       href: '/roaster-form',
       icon: BadgeCheck,
+      roles: ['Admin'],
     },
     {
       name: 'Doctor Change',
       href: '/doctor-change',
       icon: BadgeCheck,
+      roles: ['CounsellorHead', 'Admin'],
     },
   ];
-  const filteredNavItems =
-    auth?.user_role_type === 'CounsellorHead'
-      ? navItems.filter((item) => item.name === 'Doctor Change')
-      : navItems.filter((item) => item.name !== 'Doctor Change');
+
+  const filteredNavItems = navItems.filter(
+    (item) => !item.roles || item.roles.includes(auth?.user_role_type ?? '')
+  );
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -88,9 +102,8 @@ export function Sidebar() {
       )}
 
       <aside
-        className={`w-64 shrink-0 border-r border-border bg-sidebar flex-col h-full shadow-sm z-50 fixed md:relative md:flex transition-transform duration-300 ease-in-out ${
-          isOpen ? 'translate-x-0 flex' : '-translate-x-full hidden md:translate-x-0'
-        }`}
+        className={`w-64 shrink-0 border-r border-border bg-sidebar flex-col h-full shadow-sm z-50 fixed md:relative md:flex transition-transform duration-300 ease-in-out ${isOpen ? 'translate-x-0 flex' : '-translate-x-full hidden md:translate-x-0'
+          }`}
       >
         <div className="h-16 flex items-center justify-between px-6 border-b border-border">
           <span className="font-heading font-bold text-xl tracking-tight text-primary-700 dark:text-primary-50">
@@ -111,11 +124,10 @@ export function Sidebar() {
               <Link
                 key={item.name}
                 href={item.href}
-                className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
-                  isActive
-                    ? 'bg-primary-500/10 text-primary-700'
-                    : '  text-foreground/90 hover:bg-primary-50'
-                }`}
+                className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${isActive
+                  ? 'bg-primary-500/10 text-primary-700'
+                  : '  text-foreground/90 hover:bg-primary-50'
+                  }`}
               >
                 <Icon className="h-5 w-5" />
                 {item.name}
