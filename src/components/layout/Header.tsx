@@ -9,7 +9,7 @@ export function Header() {
   const { auth } = useAuthStore();
   const toggleSidebar = useSidebarStore((state) => state.toggleSidebar);
   return (
-    <header className="h-16 shrink-0 border-b border-border bg-sidebar flex items-center justify-between px-4 sm:px-6 z-10 sticky top-0 backdrop-blur-md bg-opacity-80">
+    <header className="h-16 shrink-0  flex items-center justify-between px-4 sm:px-6 z-10 sticky top-0 backdrop-blur-md bg-opacity-80">
       <div className="flex items-center flex-1">
         <Button variant="ghost" size="icon" className="md:hidden mr-2" onClick={toggleSidebar}>
           <Menu className="h-5 w-5" />
@@ -24,8 +24,10 @@ export function Header() {
         </div>
       </div>
       <div className="flex items-center gap-3">
-        <div className="h-12 w-auto rounded-lg bg-linear-to-br from-primary-400 to-primary-600 flex items-center justify-center text-white font-medium 
-        text-sm shadow-sm ring-2 ring-white dark:ring-gray-900 cursor-pointer px-3 uppercase">
+        <div
+          className="h-12 w-auto rounded-lg bg-linear-to-br from-primary-400 to-primary-600 flex items-center justify-center text-white font-medium
+        text-sm shadow-sm ring-2 ring-white dark:ring-gray-900 cursor-pointer px-3 uppercase"
+        >
           {auth?.user_role_type}
         </div>
       </div>

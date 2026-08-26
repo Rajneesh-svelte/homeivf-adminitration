@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Mail, Lock, ArrowRight } from 'lucide-react';
+import { Mail, Lock, ArrowRight, EyeClosed, EyeDashed, EyeClosedIcon, EyeIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { login } from '@/hooks/useAuth';
 import { useAuthStore } from '@/store/authStore';
@@ -13,6 +13,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const { setAuth, auth } = useAuthStore();
+  const [viewPassword, setViewPassword] = useState(false);
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -64,9 +65,7 @@ const Login = () => {
 
           <form onSubmit={handleSubmit} className="space-y-5">
             <div className="space-y-1.5">
-              <label className="text-sm font-medium text-gray-700">
-                Email Address
-              </label>
+              <label className="text-sm font-medium text-gray-700">Email Address</label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <Mail className="h-5 w-5 text-gray-400" />
@@ -84,39 +83,38 @@ const Login = () => {
 
             <div className="space-y-1.5">
               <div className="flex items-center justify-between">
-                <label className="text-sm font-medium text-gray-700">
-                  Password
-                </label>
+                <label className="text-sm font-medium text-gray-700">Password</label>
               </div>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <Lock className="h-5 w-5 text-gray-400" />
                 </div>
                 <input
-                  type="password"
+                  type={viewPassword ? 'text' : 'password'}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="block w-full pl-10 pr-3 py-2.5 sm:py-3 border border-border rounded-xl leading-5 bg-card/50 text-foreground placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all sm:text-sm"
                   placeholder="••••••••"
                   required
                 />
+                <button
+                  type="button"
+                  onClick={() => setViewPassword(!viewPassword)}
+                  className=" absolute right-4 top-1/2 -translate-y-1/2 text-gra2 hover:text-[#0F5DA9] transition-colors"
+                >
+                  {viewPassword ? <EyeIcon size={20} /> : <EyeClosedIcon size={20} />}
+                </button>
               </div>
             </div>
 
-            <div className="flex items-center">
+            {/* <div className="flex items-center">
               <input
                 id="remember-me"
                 name="remember-me"
                 type="checkbox"
                 className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded cursor-pointer"
               />
-              <label
-                htmlFor="remember-me"
-                className="ml-2 block text-sm text-gray-700 cursor-pointer"
-              >
-                Remember me for 30 days
-              </label>
-            </div>
+            </div> */}
 
             <button
               type="submit"
