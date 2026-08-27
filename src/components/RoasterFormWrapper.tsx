@@ -15,7 +15,7 @@ const RoasterFormWrapper = () => {
 
   const [selectedDoctorId, setSelectedDoctorId] = useState<string>('');
   const [editingRoster, setEditingRoster] = useState<any>(null);
-  console.log('editingRoster', editingRoster?.id);
+
 
   const handleChange = (field: any, value: any) => {
     if (field === 'assign_doctor') {
@@ -141,8 +141,8 @@ const RoasterFormWrapper = () => {
 
       toast.error(
         error?.error ||
-          error?.message ||
-          `Failed to ${editingRoster ? 'update' : 'create'} doctor roster.`,
+        error?.message ||
+        `Failed to ${editingRoster ? 'update' : 'create'} doctor roster.`,
         {
           position: 'top-right',
           autoClose: 3000,

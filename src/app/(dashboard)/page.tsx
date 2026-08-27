@@ -19,35 +19,34 @@ export default function Home() {
   const kpis = [
     {
       title: 'Total Doctors',
-      value: '42',
+      value: 'TBD',
       icon: Users,
       color: 'text-blue-600',
       bg: 'bg-blue-100',
-      trend: '+12% this month',
+      trend: 'TBD% this month',
     },
     {
       title: 'Active Treatments',
-      value: '18',
+      value: 'TBD',
       icon: Activity,
       color: 'text-rose-600',
       bg: 'bg-rose-100',
-      trend: '+5% this month',
+      trend: 'TBD% this month',
     },
     {
       title: 'Pending Certificates',
-      value: '7',
-      icon: Award,
+      value: 'TBD', icon: Award,
       color: 'text-amber-600',
       bg: 'bg-amber-100',
-      trend: '3 need urgent review',
+      trend: 'TBD need urgent review',
     },
     {
       title: "Today's Appointments",
-      value: '24',
+      value: 'TBD',
       icon: CalendarDays,
       color: 'text-emerald-600',
       bg: 'bg-emerald-100',
-      trend: 'All doctors on time',
+      trend: 'TBD',
     },
   ];
 
@@ -136,7 +135,7 @@ export default function Home() {
 
   return (
     <div className="space-y-8 animate-in fade-in duration-700 pb-12">
-      {/* Header */}
+
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h2 className="text-3xl font-bold font-heading text-foreground tracking-tight">
@@ -146,15 +145,9 @@ export default function Home() {
             Welcome back! Here&apos;s a snapshot of what&apos;s happening today.
           </p>
         </div>
-        <div className="flex items-center space-x-3">
-          <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800 border border-green-200">
-            <span className="w-2 h-2 rounded-full bg-green-500 mr-2 animate-pulse"></span>
-            System Operational
-          </span>
-        </div>
       </div>
 
-      {/* KPI Cards */}
+
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {kpis.map((kpi, idx) => (
           <div
@@ -184,9 +177,8 @@ export default function Home() {
         ))}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1  gap-8">
         <div className="lg:col-span-2 space-y-8">
-          {/* Quick Actions */}
           <div className="bg-card rounded-2xl p-6 border border-border shadow-sm">
             <h3 className="text-lg font-bold text-foreground mb-6 flex items-center">
               <Award className="w-5 h-5 mr-2 text-indigo-500" />
@@ -213,99 +205,9 @@ export default function Home() {
               ))}
             </div>
           </div>
-
-          {/* Recent Activity */}
-          <div className="bg-card rounded-2xl p-6 border border-border shadow-sm">
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="text-lg font-bold text-foreground flex items-center">
-                <Activity className="w-5 h-5 mr-2 text-blue-500" />
-                Recent Activity
-              </h3>
-              <button className="text-sm font-medium text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 transition-colors">
-                View All
-              </button>
-            </div>
-            <div className="space-y-6">
-              {recentActivities.map((item, idx) => (
-                <div key={idx} className="flex items-start group">
-                  <div
-                    className={`mt-1 rounded-full p-1.5
-                    ${item.type === 'success' ? 'bg-green-100 text-green-600' : ''}
-                    ${item.type === 'warning' ? 'bg-amber-100 text-amber-600' : ''}
-                    ${item.type === 'info' ? 'bg-blue-100 text-blue-600' : ''}
-                    ${
-                      item.type === 'default'
-                        ? 'bg-gray-100 text-gray-600  '
-                        : ''
-                    }
-                  `}
-                  >
-                    <item.icon className="w-4 h-4" />
-                  </div>
-                  <div className="ml-4 flex-1 border-b border-border pb-4 group-last:border-0 group-last:pb-0">
-                    <p className="text-sm text-foreground">
-                      <span className="font-semibold text-foreground">
-                        {item.user}
-                      </span>{' '}
-                      {item.action}
-                    </p>
-                    <p className="text-xs text-gray-500 mt-1">{item.time}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
         </div>
 
-        {/* Right Sidebar - Today's Roster */}
-        <div className="space-y-8">
-          <div className="bg-gradient-to-br from-indigo-900 to-slate-900 rounded-2xl p-6 shadow-lg text-white relative overflow-hidden">
-            <div className="absolute top-0 right-0 -mr-8 -mt-8 opacity-20">
-              <Stethoscope size={160} />
-            </div>
-            <div className="relative z-10">
-              <h3 className="text-lg font-bold flex items-center mb-6 text-indigo-50">
-                <CalendarDays className="w-5 h-5 mr-2 text-indigo-300" />
-                Today&apos;s Roster
-              </h3>
-              <div className="space-y-4">
-                {todayRoster.map((doc, idx) => (
-                  <div
-                    key={idx}
-                    className="bg-card/10 backdrop-blur-md rounded-xl p-4 border border-white/10 hover:bg-card/15 transition-colors"
-                  >
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <h4 className="font-semibold text-white">{doc.name}</h4>
-                        <p className="text-indigo-200 text-xs mt-1">{doc.specialty}</p>
-                      </div>
-                      <span
-                        className={`px-2 py-1 text-[10px] font-bold uppercase rounded-md tracking-wide
-                        ${
-                          doc.status === 'On Duty'
-                            ? 'bg-emerald-500/20 text-emerald-300'
-                            : 'bg-blue-500/20 text-blue-300'
-                        }`}
-                      >
-                        {doc.status}
-                      </span>
-                    </div>
-                    <div className="flex items-center mt-3 text-sm text-indigo-100">
-                      <Clock className="w-4 h-4 mr-2 opacity-70" />
-                      {doc.time}
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <Link
-                href="/roaster-form"
-                className="mt-6 block w-full py-3 px-4 bg-card/10 hover:bg-card/20 text-center rounded-xl text-sm font-medium transition-all backdrop-blur-sm border border-white/10 text-white"
-              >
-                View Full Schedule
-              </Link>
-            </div>
-          </div>
-        </div>
+
       </div>
     </div>
   );

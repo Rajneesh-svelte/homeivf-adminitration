@@ -34,7 +34,6 @@ export function Sidebar() {
     setIsOpen(false);
   }, [pathname, setIsOpen]);
   const { auth } = useAuthStore();
-  console.log('auth', auth?.user_role_type);
 
   const navItems: NavItem[] = [
     {

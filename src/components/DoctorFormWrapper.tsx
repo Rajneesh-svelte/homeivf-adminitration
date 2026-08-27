@@ -47,7 +47,6 @@ const DoctorFormWrapper: React.FC = () => {
   const [selectedId, setSelectedId] = useState('');
   const { doctor } = useDoctorList(auth?.access);
   const isEditMode = !!selectedId;
-  console.log('isEditMode', isEditMode);
 
   const onReset = () => {
     setSelectedId('');
@@ -330,8 +329,8 @@ const DoctorFormWrapper: React.FC = () => {
       console.error(isEditMode ? 'Failed to update doctor:' : 'Failed to create doctor:', error);
       toast.error(
         error?.error ||
-          error?.message ||
-          (isEditMode ? 'Failed to update doctor' : 'Failed to create doctor'),
+        error?.message ||
+        (isEditMode ? 'Failed to update doctor' : 'Failed to create doctor'),
         {
           position: 'top-right',
           autoClose: 3000,
@@ -447,11 +446,10 @@ const DoctorFormWrapper: React.FC = () => {
                 <div
                   key={item.id}
                   onClick={() => setSelectedId(item.id)}
-                  className={`group p-4 rounded-xl border shadow-sm hover:shadow-md transition-all duration-200 ease-in-out cursor-pointer hover:-translate-y-1 ${
-                    selectedId === item.id
+                  className={`group p-4 rounded-xl border shadow-sm hover:shadow-md transition-all duration-200 ease-in-out cursor-pointer hover:-translate-y-1 ${selectedId === item.id
                       ? 'bg-blue-50 dark:bg-blue-900/30 border-blue-500 dark:border-blue-500 ring-2 ring-blue-200 dark:ring-blue-900'
                       : 'bg-card  border-border  hover:border-blue-300 dark:hover:border-blue-700'
-                  }`}
+                    }`}
                 >
                   <div className="flex items-center space-x-4">
                     <div className="h-10 w-10 flex items-center justify-center rounded-full bg-linear-to-t from-primary-200 to-white text-white font-bold text-lg shadow-inner">
@@ -481,7 +479,7 @@ const DoctorFormWrapper: React.FC = () => {
             <DoctorDetails
               selectedId={selectedId}
               token={auth?.access}
-              // counsellorData={counsellorData}
+            // counsellorData={counsellorData}
             />
           </div>
         </div>
