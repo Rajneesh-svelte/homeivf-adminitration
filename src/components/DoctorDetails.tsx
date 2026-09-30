@@ -5,9 +5,6 @@ import { useAuthStore } from '@/store/authStore';
 import { getDoctorDetailsData } from '@/services/user';
 import Image from 'next/image';
 import {
-  ChevronLeft,
-  Edit3,
-  MoreHorizontal,
   Star,
   IndianRupee,
   Briefcase,
@@ -22,15 +19,56 @@ import {
   Info,
 } from 'lucide-react';
 
-const DoctorDetails = ({ selectedId }: any) => {
-  const { auth } = useAuthStore();
-  const [doctorData, setDoctorData] = useState<any>(null);
+interface DoctorDetailsProps {
+  selectedId: string;
+}
+interface DoctorDetail {
+  id: string;
+  email: string;
+  mobile_number: string;
+  alternative_mobile_number: string | null;
+  first_name: string;
+  last_name: string;
+  counselor_name: string;
+  counselor: string;
+  is_active: boolean;
+  city: string;
+  state: string;
+  country: string;
+  profile_picture: string | null;
+  signature: string | null;
+  zipcode: string | null;
+  e_stamp: string | null;
+  state_medical_council: string | null;
+  board_registration: string | null;
+  rating: number;
+  cases_attended: number | null;
+  whatsapp_number: string | null;
+  awards: string;
+  profile_summery: string;
+  designation: string | null;
+  level: string;
+  qualification: string | null;
+  role_type: string;
+  specialization: string;
+  experience_in_year: number | null;
+  work_experience: string;
+  education_and_training: string;
+  consultation_fee: number;
+  doctor_certificate: DoctorCertificate[];
+  art_treatments: string[];
+}
+interface DoctorCertificate {
+  id?: string;
+  certificate_name?: string;
+  certificate_url?: string;
+}
 
+const DoctorDetails = ({ selectedId }: DoctorDetailsProps) => {
+  const { auth } = useAuthStore();
+  const [doctorData, setDoctorData] = useState<DoctorDetail | null>(null);
   useEffect(() => {
-    if (!auth?.access || !selectedId) {
-      setDoctorData(null);
-      return;
-    }
+    if (!auth?.access || !selectedId) return;
 
     const fetchDoctorData = async () => {
       try {
@@ -46,11 +84,13 @@ const DoctorDetails = ({ selectedId }: any) => {
 
   if (!doctorData || !doctorData.id) {
     return (
-      <div className="flex flex-col items-center justify-center h-full pb-10 text-gray-400 bg-card rounded-2xl border border-border shadow-sm">
-        <Users className="w-16 h-16 mb-4 opacity-30 text-gray-400" />
-        <p className="text-xl font-semibold text-gray-500">No Doctor Selected</p>
-        <p className="text-sm mt-2 max-w-xs text-center leading-relaxed">
-          Select a Doctor from the list to view their complete profile and details.
+      <div className="flex flex-col items-center justify-center h-full px-6 py-12 bg-card rounded-2xl border border-dashed border-border">
+        <div className="flex items-center justify-center h-20 w-20 rounded-full bg-primary-500/10 mb-5">
+          <Users className="w-9 h-9 text-primary-500" />
+        </div>
+        <p className="text-lg font-semibold text-foreground">No Doctor Selected</p>
+        <p className="text-sm mt-1.5 max-w-xs text-center leading-relaxed text-muted-foreground">
+          Select a doctor from the list to view their complete profile and details.
         </p>
       </div>
     );
@@ -86,19 +126,18 @@ const DoctorDetails = ({ selectedId }: any) => {
                 {doctorData.designation} • {doctorData.role_type}
               </p>
               {doctorData.specialization && (
-                <p className="text-sm text-gray-500 mt-1">
-                  {doctorData.specialization}
-                </p>
+                <p className="text-sm text-gray-500 mt-1">{doctorData.specialization}</p>
               )}
               <div className="flex flex-wrap items-center gap-2 sm:gap-3 mt-3">
                 <span className="px-3 py-1 bg-primary-50 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 text-xs font-semibold rounded-full border border-primary-100 dark:primary-primary-800">
                   Doctor • {doctorData.level}
                 </span>
                 <span
-                  className={`px-3 py-1 text-xs font-semibold rounded-full border ${doctorData.is_active
+                  className={`px-3 py-1 text-xs font-semibold rounded-full border ${
+                    doctorData.is_active
                       ? 'bg-green-50 dark:bg-green-900/20 text-green-600 border-green-100'
                       : 'bg-red-50 dark:bg-red-900/20 text-red-600 border-red-100'
-                    }`}
+                  }`}
                 >
                   {doctorData.is_active ? 'Active Profile' : 'Inactive Profile'}
                 </span>
@@ -134,7 +173,7 @@ const DoctorDetails = ({ selectedId }: any) => {
             <div className="flex-1 lg:flex-none flex flex-col items-center justify-center bg-primary-50 dark:bg-primary-800/50 rounded-xl p-4 border border-primary-100 dark:border-primary-800 min-w-[120px]">
               <div className="flex items-center gap-2 text-primary-900 font-bold text-base text-center">
                 <CheckCircle className="w-5 h-5 text-primary-500 shrink-0" />
-                <span className="truncate max-w-[80px]" title={doctorData.qualification}>
+                <span className="truncate max-w-20">
                   {doctorData.qualification?.split(',')[0] || 'N/A'}
                 </span>
               </div>
@@ -236,10 +275,7 @@ const DoctorDetails = ({ selectedId }: any) => {
                   <div className="w-1.5 h-1.5 rounded-full bg-primary-400"></div>
                   <span className="text-sm text-gray-500">Qualification</span>
                 </div>
-                <span
-                  className="text-sm text-foreground col-span-2 truncate"
-                  title={doctorData.qualification}
-                >
+                <span className="text-sm text-foreground col-span-2 truncate">
                   {doctorData.qualification}
                 </span>
               </li>

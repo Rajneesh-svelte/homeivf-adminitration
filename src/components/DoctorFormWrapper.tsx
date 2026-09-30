@@ -329,8 +329,8 @@ const DoctorFormWrapper: React.FC = () => {
       console.error(isEditMode ? 'Failed to update doctor:' : 'Failed to create doctor:', error);
       toast.error(
         error?.error ||
-        error?.message ||
-        (isEditMode ? 'Failed to update doctor' : 'Failed to create doctor'),
+          error?.message ||
+          (isEditMode ? 'Failed to update doctor' : 'Failed to create doctor'),
         {
           position: 'top-right',
           autoClose: 3000,
@@ -436,7 +436,7 @@ const DoctorFormWrapper: React.FC = () => {
         <div className="flex flex-col md:flex-row gap-4 w-full">
           <div className="p-6 border w-full md:max-w-md border-border rounded-2xl bg-card/60 backdrop-blur-xl shadow-xl transition-all duration-300 h-[70vh] overflow-y-auto">
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-2xl font-bold font-heading text-foreground dark:bg-gradient-to-r dark:from-blue-400 dark:to-indigo-400 dark:bg-clip-text dark:text-transparent">
+              <h3 className="text-2xl font-bold font-heading text-foreground dark:bg-linear-to-r dark:from-blue-400 dark:to-indigo-400 dark:bg-clip-text dark:text-transparent">
                 Available Doctors
               </h3>
             </div>
@@ -446,10 +446,11 @@ const DoctorFormWrapper: React.FC = () => {
                 <div
                   key={item.id}
                   onClick={() => setSelectedId(item.id)}
-                  className={`group p-4 rounded-xl border shadow-sm hover:shadow-md transition-all duration-200 ease-in-out cursor-pointer hover:-translate-y-1 ${selectedId === item.id
+                  className={`group p-4 rounded-xl border shadow-sm hover:shadow-md transition-all duration-200 ease-in-out cursor-pointer hover:-translate-y-1 ${
+                    selectedId === item.id
                       ? 'bg-blue-50 dark:bg-blue-900/30 border-blue-500 dark:border-blue-500 ring-2 ring-blue-200 dark:ring-blue-900'
                       : 'bg-card  border-border  hover:border-blue-300 dark:hover:border-blue-700'
-                    }`}
+                  }`}
                 >
                   <div className="flex items-center space-x-4">
                     <div className="h-10 w-10 flex items-center justify-center rounded-full bg-linear-to-t from-primary-200 to-white text-white font-bold text-lg shadow-inner">
@@ -465,9 +466,7 @@ const DoctorFormWrapper: React.FC = () => {
                       <p className="text-sm font-semibold text-foreground truncate group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                         {item.full_name.trim() || 'Unknown'}
                       </p>
-                      <p className="text-xs text-gray-500 truncate mt-0.5">
-                        ID: {item.id}
-                      </p>
+                      <p className="text-xs text-gray-500 truncate mt-0.5">ID: {item.id}</p>
                     </div>
                   </div>
                 </div>
@@ -478,8 +477,8 @@ const DoctorFormWrapper: React.FC = () => {
           <div className="flex-1 min-w-0">
             <DoctorDetails
               selectedId={selectedId}
-              token={auth?.access}
-            // counsellorData={counsellorData}
+
+              // counsellorData={counsellorData}
             />
           </div>
         </div>

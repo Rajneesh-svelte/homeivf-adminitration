@@ -77,7 +77,7 @@ export function Sidebar() {
       roles: ['Admin', 'CounsellorHead'],
       subItems: [
         {
-          name: 'Doctor List',
+          name: 'Create Doctor',
           href: '/doctor-create',
           roles: ['Admin'],
         },

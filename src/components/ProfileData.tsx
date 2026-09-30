@@ -8,14 +8,38 @@ import { useCounsellorListStore } from '@/store/counsellorStore';
 import CounsellorDetails from './CounsellorDetails';
 import counsellorImage from '@/../public/avatars/counsellor.png';
 import Image from 'next/image';
+import { User, UserPlus, Users } from 'lucide-react';
+
+interface CounsellorData {
+  id: string;
+  profile_picture: string;
+  full_name: string;
+  is_active: boolean;
+  email: string;
+  mobile_number: string;
+  alternative_mobile_number: string;
+  first_name: string;
+  last_name: string;
+  city: string;
+  state: string;
+  country: string;
+  zipcode: string;
+  password: string;
+  role_type: string;
+  designation: string;
+  qualification: string;
+  experience_in_year: string;
+  rating: string;
+  gender: string;
+  signature: string;
+}
 
 export default function ProfileData() {
   const { auth } = useAuthStore();
   const [loading, setLoading] = useState(true);
   const { setCounsellor, counsellor } = useCounsellorListStore();
   const [selectedId, setSelectedId] = useState('');
-  const [counsellorData, setCounsellorData] = useState<any>();
-
+  const [counsellorData, setCounsellorData] = useState<CounsellorData | null>(null);
   useEffect(() => {
     const fetchCounselors = async () => {
       if (auth?.access) {
@@ -78,9 +102,7 @@ export default function ProfileData() {
   if (!counsellor || counsellor.length === 0) {
     return (
       <div className="mt-6 p-6 border border-border rounded-2xl bg-card/50 backdrop-blur-xl shadow-lg">
-        <h3 className="text-xl font-bold font-heading text-foreground mb-4">
-          Counselors List
-        </h3>
+        <h3 className="text-xl font-bold font-heading text-foreground mb-4">Counselors List</h3>
         <p className="text-gray-500">No counselors found.</p>
       </div>
     );
@@ -91,7 +113,7 @@ export default function ProfileData() {
       <div className="flex flex-col md:flex-row gap-4 w-full">
         <div className="p-6 border w-full md:max-w-md border-border rounded-2xl bg-card/60 backdrop-blur-xl shadow-xl transition-all duration-300 h-[70vh] overflow-y-auto">
           <div className="flex items-center justify-between mb-6">
-            <h3 className="text-2xl font-bold font-heading text-foreground dark:bg-gradient-to-r dark:from-blue-400 dark:to-indigo-400 dark:bg-clip-text dark:text-transparent">
+            <h3 className="text-xl font-bold font-heading  text-foreground dark:bg-linear-to-r dark:from-blue-400 dark:to-indigo-400 dark:bg-clip-text dark:text-transparent">
               Available Counselors
             </h3>
           </div>
@@ -122,9 +144,7 @@ export default function ProfileData() {
                     <p className="text-sm font-semibold text-foreground truncate group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                       {item.name.trim() || 'Unknown'}
                     </p>
-                    <p className="text-xs text-gray-500 truncate mt-0.5">
-                      ID: {item.id}
-                    </p>
+                    <p className="text-xs text-gray-500 truncate mt-0.5">ID: {item.id}</p>
                   </div>
                 </div>
               </div>
@@ -133,7 +153,20 @@ export default function ProfileData() {
         </div>
 
         <div className="flex-1 min-w-0">
-          <CounsellorDetails counsellorData={counsellorData} />
+          {counsellorData ? (
+            <CounsellorDetails counsellorData={counsellorData} />
+          ) : (
+            <div className="flex flex-col items-center justify-center h-full px-6 py-12 bg-card rounded-2xl border border-dashed border-border">
+              <div className="flex items-center justify-center h-20 w-20 rounded-full bg-primary-500/10 mb-5 animate-pulse">
+                <UserPlus className="w-9 h-9 text-primary-500" />
+              </div>
+
+              <p className="text-lg font-semibold text-foreground">No Counsellor Selected</p>
+              <p className="text-sm mt-1.5 max-w-xs text-center leading-relaxed text-muted-foreground">
+                Select a Counsellor from the list to view their complete profile and details.
+              </p>
+            </div>
+          )}
         </div>
       </div>
 

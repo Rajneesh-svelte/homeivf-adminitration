@@ -344,7 +344,7 @@ export const createCategory = async (token: string, data: { name: string }) => {
     body: JSON.stringify(data),
   });
 
-  return response.data;
+  return response;
 };
 
 export const createSubCategory = async (
@@ -363,7 +363,7 @@ export const createSubCategory = async (
     body: JSON.stringify(data),
   });
 
-  return response.data;
+  return response;
 };
 
 export const getSubCategory = async (token: string) => {
@@ -375,5 +375,5 @@ export const getSubCategory = async (token: string) => {
     },
   });
 
-  return response.data;
+  return response;
 };

@@ -2,7 +2,7 @@
 
 import { createCategory, createSubCategory, getCategory, getSubCategory } from '@/services/user';
 import { useAuthStore } from '@/store/authStore';
-import { FormEvent, useEffect, useState } from 'react';
+import { FormEvent, useEffect, useState, useCallback } from 'react';
 
 interface CategoryType {
   id: string;
@@ -14,6 +14,18 @@ interface SubCategoryType {
   category: string;
   name: string;
 }
+
+// Helper: extract a friendly message from an unknown error
+const getErrorMessage = (error: unknown, fallback: string): string => {
+  if (typeof error === 'object' && error !== null) {
+    const err = error as {
+      response?: { data?: { message?: string } };
+      message?: string;
+    };
+    return err.response?.data?.message ?? err.message ?? fallback;
+  }
+  return fallback;
+};
 
 const Category = () => {
   const { auth } = useAuthStore();
@@ -35,18 +47,15 @@ const Category = () => {
   const [subCategoryMessage, setSubCategoryMessage] = useState('');
   const [subCategoryError, setSubCategoryError] = useState('');
 
-  // ==========================================
-  // GET CATEGORIES
-  // ==========================================
-
-  const fetchCategories = async () => {
-    if (!auth?.access) return;
+  // ---- Fetch helpers (component-scoped, reusable) ----
+  const fetchCategories = useCallback(async () => {
+    const token = auth?.access;
+    if (!token) return;
 
     try {
       setFetching(true);
-
-      const res = await getCategory(auth.access);
-
+      const res = await getCategory(token);
+      console.log(res.data);
       if (Array.isArray(res?.data)) {
         setCategories(res.data);
       }
@@ -55,45 +64,35 @@ const Category = () => {
     } finally {
       setFetching(false);
     }
-  };
+  }, [auth?.access]);
 
-  // ==========================================
-  // GET SUBCATEGORIES
-  // ==========================================
-
-  const fetchSubCategories = async () => {
-    if (!auth?.access) return;
+  const fetchSubCategories = useCallback(async () => {
+    const token = auth?.access;
+    if (!token) return;
 
     try {
-      const res = await getSubCategory(auth.access);
-
-      if (Array.isArray(res?.data)) {
-        setSubCategories(res.data);
+      const res = await getSubCategory(token);
+      if (Array.isArray(res)) {
+        setSubCategories(res);
       }
     } catch (error) {
       console.error('Failed to fetch subcategories', error);
     }
-  };
-
-  // ==========================================
-  // INITIAL API CALLS
-  // ==========================================
+  }, [auth?.access]);
 
   useEffect(() => {
     if (!auth?.access) return;
 
     fetchCategories();
     fetchSubCategories();
-  }, [auth?.access]);
+  }, [auth?.access, fetchCategories, fetchSubCategories]);
 
-  // ==========================================
-  // CREATE CATEGORY
-  // ==========================================
-
+  // ---- Create category ----
   const handleCreateCategory = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!auth?.access) {
+    const token = auth?.access;
+    if (!token) {
       setCategoryError('Authentication required.');
       return;
     }
@@ -108,34 +107,26 @@ const Category = () => {
       setCategoryError('');
       setCategoryMessage('');
 
-      await createCategory(auth.access, {
-        name: categoryName.trim(),
-      });
+      await createCategory(token, { name: categoryName.trim() });
 
       setCategoryMessage('Category created successfully.');
-
       setCategoryName('');
 
       await fetchCategories();
-    } catch (error: any) {
+    } catch (error) {
       console.error('Failed to create category', error);
-
-      setCategoryError(
-        error?.response?.data?.message || error?.message || 'Failed to create category.'
-      );
+      setCategoryError(getErrorMessage(error, 'Failed to create category.'));
     } finally {
       setCategoryLoading(false);
     }
   };
 
-  // ==========================================
-  // CREATE SUBCATEGORY
-  // ==========================================
-
+  // ---- Create subcategory ----
   const handleCreateSubCategory = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!auth?.access) {
+    const token = auth?.access;
+    if (!token) {
       setSubCategoryError('Authentication required.');
       return;
     }
@@ -155,31 +146,22 @@ const Category = () => {
       setSubCategoryError('');
       setSubCategoryMessage('');
 
-      await createSubCategory(auth.access, {
+      await createSubCategory(token, {
         category: selectedCategory,
         name: subCategoryName.trim(),
       });
 
       setSubCategoryMessage('Subcategory created successfully.');
-
       setSubCategoryName('');
 
-      // Refresh subcategories
       await fetchSubCategories();
-    } catch (error: any) {
+    } catch (error) {
       console.error('Failed to create subcategory', error);
-
-      setSubCategoryError(
-        error?.response?.data?.message || error?.message || 'Failed to create subcategory.'
-      );
+      setSubCategoryError(getErrorMessage(error, 'Failed to create subcategory.'));
     } finally {
       setSubCategoryLoading(false);
     }
   };
-
-  // ==========================================
-  // FILTER SUBCATEGORIES
-  // ==========================================
 
   const selectedSubCategories = subCategories.filter(
     (subCategory) => subCategory.category === selectedCategory
@@ -187,13 +169,9 @@ const Category = () => {
 
   return (
     <div className="max-w-xl space-y-6 p-6">
-      {/* ======================================
-          CREATE CATEGORY
-      ======================================= */}
-
+      {/* ---- CREATE CATEGORY ---- */}
       <div className="rounded-lg border bg-white p-6 shadow-sm">
         <h2 className="mb-1 text-xl font-semibold">Create Diagnostic Category</h2>
-
         <p className="mb-6 text-sm text-gray-500">Add a new diagnostic category.</p>
 
         <form onSubmit={handleCreateCategory} className="space-y-4">
@@ -201,7 +179,6 @@ const Category = () => {
             <label htmlFor="categoryName" className="mb-2 block text-sm font-medium">
               Category Name
             </label>
-
             <input
               id="categoryName"
               type="text"
@@ -214,7 +191,6 @@ const Category = () => {
           </div>
 
           {categoryError && <p className="text-sm text-red-500">{categoryError}</p>}
-
           {categoryMessage && <p className="text-sm text-green-600">{categoryMessage}</p>}
 
           <button
@@ -227,22 +203,16 @@ const Category = () => {
         </form>
       </div>
 
-      {/* ======================================
-          CREATE SUBCATEGORY
-      ======================================= */}
-
+      {/* ---- CREATE SUBCATEGORY ---- */}
       <div className="rounded-lg border bg-white p-6 shadow-sm">
         <h2 className="mb-1 text-xl font-semibold">Create Diagnostic Subcategory</h2>
-
         <p className="mb-6 text-sm text-gray-500">Select a category and add a subcategory.</p>
 
         <form onSubmit={handleCreateSubCategory} className="space-y-4">
-          {/* Category */}
           <div>
             <label htmlFor="category" className="mb-2 block text-sm font-medium">
               Category
             </label>
-
             <select
               id="category"
               value={selectedCategory}
@@ -255,7 +225,6 @@ const Category = () => {
               className="w-full rounded-md border bg-white px-3 py-2 outline-none focus:border-blue-500"
             >
               <option value="">Select Category</option>
-
               {categories.map((category) => (
                 <option key={category.id} value={category.id}>
                   {category.name}
@@ -264,12 +233,10 @@ const Category = () => {
             </select>
           </div>
 
-          {/* Subcategory Name */}
           <div>
             <label htmlFor="subCategoryName" className="mb-2 block text-sm font-medium">
               Subcategory Name
             </label>
-
             <input
               id="subCategoryName"
               type="text"
@@ -282,7 +249,6 @@ const Category = () => {
           </div>
 
           {subCategoryError && <p className="text-sm text-red-500">{subCategoryError}</p>}
-
           {subCategoryMessage && <p className="text-sm text-green-600">{subCategoryMessage}</p>}
 
           <button
@@ -295,10 +261,7 @@ const Category = () => {
         </form>
       </div>
 
-      {/* ======================================
-          SUBCATEGORY LIST
-      ======================================= */}
-
+      {/* ---- SUBCATEGORY LIST ---- */}
       {selectedCategory && (
         <div className="rounded-lg border bg-white p-6 shadow-sm">
           <h2 className="mb-4 text-lg font-semibold">Subcategories</h2>
@@ -317,10 +280,7 @@ const Category = () => {
         </div>
       )}
 
-      {/* ======================================
-          CATEGORY LIST
-      ======================================= */}
-
+      {/* ---- CATEGORY LIST ---- */}
       <div className="rounded-lg border bg-white p-6 shadow-sm">
         <h2 className="mb-4 text-lg font-semibold">Categories</h2>
 
@@ -336,7 +296,6 @@ const Category = () => {
                 className="flex items-center justify-between rounded-md border p-3"
               >
                 <span>{category.name}</span>
-
                 <span className="text-xs text-gray-400">{category.id}</span>
               </div>
             ))}

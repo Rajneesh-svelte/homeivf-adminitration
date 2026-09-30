@@ -2,7 +2,7 @@
 import { BuildingIcon, FileTextIcon } from 'lucide-react';
 import DynamicForm from './DynamicForm';
 import { FormFieldConfig } from '@/Interfaces/FormField';
-import { createRoaster, getDoctorList, updateRoaster, deleteRoaster } from '@/services/user';
+import { createRoaster, updateRoaster, deleteRoaster } from '@/services/user';
 import { useAuthStore } from '@/store/authStore';
 import { useState } from 'react';
 import DoctorSlot from './DoctorSlot';
@@ -15,7 +15,6 @@ const RoasterFormWrapper = () => {
 
   const [selectedDoctorId, setSelectedDoctorId] = useState<string>('');
   const [editingRoster, setEditingRoster] = useState<any>(null);
-
 
   const handleChange = (field: any, value: any) => {
     if (field === 'assign_doctor') {
@@ -141,8 +140,8 @@ const RoasterFormWrapper = () => {
 
       toast.error(
         error?.error ||
-        error?.message ||
-        `Failed to ${editingRoster ? 'update' : 'create'} doctor roster.`,
+          error?.message ||
+          `Failed to ${editingRoster ? 'update' : 'create'} doctor roster.`,
         {
           position: 'top-right',
           autoClose: 3000,
