@@ -95,11 +95,10 @@ const DoctorDetails = ({ selectedId }: any) => {
                   Doctor • {doctorData.level}
                 </span>
                 <span
-                  className={`px-3 py-1 text-xs font-semibold rounded-full border ${
-                    doctorData.is_active
+                  className={`px-3 py-1 text-xs font-semibold rounded-full border ${doctorData.is_active
                       ? 'bg-green-50 dark:bg-green-900/20 text-green-600 border-green-100'
                       : 'bg-red-50 dark:bg-red-900/20 text-red-600 border-red-100'
-                  }`}
+                    }`}
                 >
                   {doctorData.is_active ? 'Active Profile' : 'Inactive Profile'}
                 </span>

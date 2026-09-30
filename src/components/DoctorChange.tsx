@@ -290,7 +290,10 @@ const DoctorChange = () => {
                   </td>
 
                   <td className="px-6 py-6">
-                    <p title={item.reason} className="max-w-50 text-sm leading-5 text-foreground/80">
+                    <p
+                      title={item.reason}
+                      className="max-w-50 text-sm leading-5 text-foreground/80"
+                    >
                       {item.reason}
                     </p>
                   </td>
@@ -407,7 +410,7 @@ const DoctorChange = () => {
                   onClick={() => setApproveModal(false)}
                   className="flex h-9 w-9 items-center justify-center rounded-lg text-foreground/50 transition hover:bg-background hover:text-foreground/80"
                 >
-                  <CrossIcon size={18} />
+                  <CrossIcon size={22} className=" text-red-500 rotate-45" />
                 </button>
               </div>
 
@@ -511,7 +514,9 @@ const DoctorChange = () => {
                         </div>
 
                         <div>
-                          <p className="text-xs font-medium text-foreground/60">Selected Appointment</p>
+                          <p className="text-xs font-medium text-foreground/60">
+                            Selected Appointment
+                          </p>
 
                           <p className="mt-0.5 text-sm font-semibold text-foreground">
                             {approveData.start_time && approveData.end_time
@@ -581,7 +586,9 @@ const DoctorChange = () => {
 
                               <p
                                 className={`text-base font-bold ${
-                                  isSelected ? 'text-primary-700 dark:text-primary-400' : 'text-foreground'
+                                  isSelected
+                                    ? 'text-primary-700 dark:text-primary-400'
+                                    : 'text-foreground'
                                 }`}
                               >
                                 {item.start_time}
@@ -606,7 +613,9 @@ const DoctorChange = () => {
                             <Stethoscope className="h-5 w-5 text-foreground/50" />
                           </div>
 
-                          <p className="text-sm font-semibold text-foreground/90">No slots available</p>
+                          <p className="text-sm font-semibold text-foreground/90">
+                            No slots available
+                          </p>
 
                           <p className="mt-1 text-xs text-foreground/60">
                             There are no available slots for the selected date.

@@ -37,3 +37,8 @@ export const REFRESH_TOKEN = '/user/api/v1/refresh/';
 
 export const CHANGE_DOCTOR_DATES_API = '/admin_dashboard/api/v2/change-doctor-dates/';
 export const CHANGE_DOCTOR_SLOTS_API = '/admin_dashboard/api/v2/change-doctor-slot/';
+
+// doctor category / sub category
+
+export const CATEGORY = '/admin_dashboard/api/v1/create-diagnostic-category/';
+export const SUB_CATEGORY = '/admin_dashboard/api/v1/create-diagnostic-subcategory/';

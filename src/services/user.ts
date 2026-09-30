@@ -1,5 +1,6 @@
 import { CousellorFormData } from '@/Interfaces/CousellorFormData';
 import {
+  CATEGORY,
   CERTIFICATE_API,
   COUSELLOR_LIST,
   CREATE_DOCTOR_API,
@@ -7,6 +8,7 @@ import {
   GET_ART_TREATMENT_API,
   GET_COUNSELLOR_API,
   GET_DOCTOR_API,
+  SUB_CATEGORY,
 } from '@/utils/contants';
 import { toast } from 'react-toastify';
 import { fetchApi } from '@/utils/fetchApi';
@@ -72,11 +74,7 @@ export async function updateCounsellor(
   }
 }
 
-export async function updateDoctor(
-  id: string,
-  formData: FormData,
-  token: string
-) {
+export async function updateDoctor(id: string, formData: FormData, token: string) {
   try {
     const response = await fetchApi(
       `${process.env.NEXT_PUBLIC_API_BACKEND_URL}${GET_DOCTOR_API}${id}/`,
@@ -118,11 +116,14 @@ export async function getArtTreatmentForm(token: string) {
 
 export async function getCertificateList(token: string) {
   try {
-    const response = await fetchApi(`${process.env.NEXT_PUBLIC_API_BACKEND_URL}${CERTIFICATE_API}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await fetchApi(
+      `${process.env.NEXT_PUBLIC_API_BACKEND_URL}${CERTIFICATE_API}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     const result = await response.json();
     if (!response.ok) throw result;
     return result;
@@ -134,13 +135,16 @@ export async function getCertificateList(token: string) {
 
 export async function createDoctor(formData: FormData, token: string) {
   try {
-    const response = await fetchApi(`${process.env.NEXT_PUBLIC_API_BACKEND_URL}${CREATE_DOCTOR_API}`, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      body: formData,
-    });
+    const response = await fetchApi(
+      `${process.env.NEXT_PUBLIC_API_BACKEND_URL}${CREATE_DOCTOR_API}`,
+      {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      }
+    );
     const result = await response.json();
     if (!response.ok) throw result;
     return result;
@@ -152,13 +156,16 @@ export async function createDoctor(formData: FormData, token: string) {
 
 export async function createCertificate(formData: FormData, token: string) {
   try {
-    const response = await fetchApi(`${process.env.NEXT_PUBLIC_API_BACKEND_URL}${CERTIFICATE_API}`, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      body: formData,
-    });
+    const response = await fetchApi(
+      `${process.env.NEXT_PUBLIC_API_BACKEND_URL}${CERTIFICATE_API}`,
+      {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      }
+    );
     const result = await response.json();
     if (!response.ok) throw result;
     return result;
@@ -170,14 +177,17 @@ export async function createCertificate(formData: FormData, token: string) {
 
 export async function createRoaster(formData: FormData, token: string) {
   try {
-    const response = await fetchApi(`${process.env.NEXT_PUBLIC_API_BACKEND_URL}${CREATE_ROASTER_FORM}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(formData),
-    });
+    const response = await fetchApi(
+      `${process.env.NEXT_PUBLIC_API_BACKEND_URL}${CREATE_ROASTER_FORM}`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(formData),
+      }
+    );
     const result = await response.json();
     if (!response.ok) throw result;
     return result;
@@ -189,14 +199,17 @@ export async function createRoaster(formData: FormData, token: string) {
 
 export async function updateRoaster(data: any, token: string, id: string) {
   try {
-    const response = await fetchApi(`${process.env.NEXT_PUBLIC_API_BACKEND_URL}${CREATE_ROASTER_FORM}${id}/`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(data),
-    });
+    const response = await fetchApi(
+      `${process.env.NEXT_PUBLIC_API_BACKEND_URL}${CREATE_ROASTER_FORM}${id}/`,
+      {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+      }
+    );
     const result = await response.json();
     if (!response.ok) throw result;
     return result;
@@ -208,12 +221,15 @@ export async function updateRoaster(data: any, token: string, id: string) {
 
 export async function deleteRoaster(token: string, id: string) {
   try {
-    const response = await fetchApi(`${process.env.NEXT_PUBLIC_API_BACKEND_URL}${CREATE_ROASTER_FORM}${id}/`, {
-      method: 'DELETE',
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await fetchApi(
+      `${process.env.NEXT_PUBLIC_API_BACKEND_URL}${CREATE_ROASTER_FORM}${id}/`,
+      {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
     if (!response.ok) {
       const result = await response.json().catch(() => ({}));
@@ -228,11 +244,14 @@ export async function deleteRoaster(token: string, id: string) {
 
 export async function getDoctorList(token: string) {
   try {
-    const response = await fetchApi(`${process.env.NEXT_PUBLIC_API_BACKEND_URL}${CREATE_DOCTOR_API}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await fetchApi(
+      `${process.env.NEXT_PUBLIC_API_BACKEND_URL}${CREATE_DOCTOR_API}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     const result = await response.json();
     if (!response.ok) throw result;
     return result;
@@ -298,3 +317,63 @@ export async function getCounsellorDetails(token: string, id: string) {
     throw error;
   }
 }
+
+export async function getCategory(token: string) {
+  try {
+    const response = await fetchApi(`${process.env.NEXT_PUBLIC_API_BACKEND_URL}${CATEGORY}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const result = await response.json();
+    if (!response.ok) throw result;
+    return result;
+  } catch (error: any) {
+    toast.error(error?.error || error?.message || 'Failed to fetch counsellor details');
+    throw error;
+  }
+}
+
+export const createCategory = async (token: string, data: { name: string }) => {
+  const response = await fetchApi(`${process.env.NEXT_PUBLIC_API_BACKEND_URL}${CATEGORY}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(data),
+  });
+
+  return response.data;
+};
+
+export const createSubCategory = async (
+  token: string,
+  data: {
+    category: string;
+    name: string;
+  }
+) => {
+  const response = await fetchApi(`${process.env.NEXT_PUBLIC_API_BACKEND_URL}${SUB_CATEGORY}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(data),
+  });
+
+  return response.data;
+};
+
+export const getSubCategory = async (token: string) => {
+  const response = await fetchApi(`${process.env.NEXT_PUBLIC_API_BACKEND_URL}${SUB_CATEGORY}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return response.data;
+};
