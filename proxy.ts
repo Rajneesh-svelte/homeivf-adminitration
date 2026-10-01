@@ -101,7 +101,6 @@ function findCanonicalRoute(pathname: string): string | null {
 export function proxy(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
   const token = request.cookies.get('token')?.value;
-  console.log('[MW] hit:', pathname);
 
   if (pathname === '/login') {
     return token ? NextResponse.redirect(new URL('/', request.url)) : NextResponse.next();

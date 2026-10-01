@@ -9,7 +9,7 @@ export function Header() {
   const { auth } = useAuthStore();
   const toggleSidebar = useSidebarStore((state) => state.toggleSidebar);
   return (
-    <header className="h-16 shrink-0  flex items-center justify-between px-4 sm:px-6 z-10 sticky top-0 backdrop-blur-md bg-opacity-80">
+    <header className="h-16 shrink-0  flex items-center justify-between px-4 sm:px-6 z-10 sticky top-0 backdrop-blur-md bg-opacity-80 bg-white">
       <div className="flex items-center flex-1">
         <Button variant="ghost" size="icon" className="md:hidden mr-2" onClick={toggleSidebar}>
           <Menu className="h-5 w-5" />

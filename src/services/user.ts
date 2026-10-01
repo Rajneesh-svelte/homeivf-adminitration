@@ -75,24 +75,19 @@ export async function updateCounsellor(
 }
 
 export async function updateDoctor(id: string, formData: FormData, token: string) {
-  try {
-    const response = await fetchApi(
-      `${process.env.NEXT_PUBLIC_API_BACKEND_URL}${GET_DOCTOR_API}${id}/`,
-      {
-        method: 'PUT',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: formData,
-      }
-    );
-    const result = await response.json();
-    if (!response.ok) throw result;
-    return result;
-  } catch (error: any) {
-    toast.error(error?.error || error?.message || 'Failed to update doctor');
-    throw error;
-  }
+  const response = await fetchApi(
+    `${process.env.NEXT_PUBLIC_API_BACKEND_URL}${GET_DOCTOR_API}${id}/`,
+    {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
+    }
+  );
+  const result = await response.json();
+  if (!response.ok) throw result;
+  return result;
 }
 
 export async function getArtTreatmentForm(token: string) {
@@ -256,6 +251,7 @@ export async function getDoctorList(token: string) {
     if (!response.ok) throw result;
     return result;
   } catch (error: any) {
+    console.log('error values', error);
     toast.error(error?.error || error?.message || 'Failed to fetch doctor list');
     throw error;
   }

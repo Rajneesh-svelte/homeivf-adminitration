@@ -326,15 +326,12 @@ const DoctorFormWrapper: React.FC = () => {
         });
       }
     } catch (error: any) {
-      console.error(isEditMode ? 'Failed to update doctor:' : 'Failed to create doctor:', error);
       toast.error(
-        error?.error ||
-          error?.message ||
-          (isEditMode ? 'Failed to update doctor' : 'Failed to create doctor'),
-        {
-          position: 'top-right',
-          autoClose: 3000,
-        }
+        error?.email?.[0] ||
+          error?.phone?.[0] ||
+          error?.name?.[0] ||
+          error?.error ||
+          error?.message || { position: 'top-right', autoClose: 3000 }
       );
     }
   };
@@ -355,6 +352,7 @@ const DoctorFormWrapper: React.FC = () => {
             setCounsellor([]);
           }
         } catch (error) {
+          console.log('error', error);
           console.error('Failed to fetch counselors', error);
           setCounsellor([]);
         }

@@ -35,7 +35,8 @@ export default function Home() {
     },
     {
       title: 'Pending Certificates',
-      value: 'TBD', icon: Award,
+      value: 'TBD',
+      icon: Award,
       color: 'text-amber-600',
       bg: 'bg-amber-100',
       trend: 'TBD need urgent review',
@@ -135,7 +136,6 @@ export default function Home() {
 
   return (
     <div className="space-y-8 animate-in fade-in duration-700 pb-12">
-
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h2 className="text-3xl font-bold font-heading text-foreground tracking-tight">
@@ -146,7 +146,6 @@ export default function Home() {
           </p>
         </div>
       </div>
-
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {kpis.map((kpi, idx) => (
@@ -169,9 +168,7 @@ export default function Home() {
             <div>
               <h3 className="text-gray-500 text-sm font-medium">{kpi.title}</h3>
               <p className="text-3xl font-bold text-foreground mt-1">{kpi.value}</p>
-              <p className="text-xs text-gray-500 mt-2 font-medium">
-                {kpi.trend}
-              </p>
+              <p className="text-xs text-gray-500 mt-2 font-medium">{kpi.trend}</p>
             </div>
           </div>
         ))}
@@ -195,9 +192,7 @@ export default function Home() {
                     <action.icon className="w-6 h-6 text-gray-700" />
                   </div>
                   <div className="ml-4 flex-1">
-                    <h4 className="text-sm font-bold text-foreground">
-                      {action.title}
-                    </h4>
+                    <h4 className="text-sm font-bold text-foreground">{action.title}</h4>
                     <p className="text-xs text-gray-600 mt-1">{action.desc}</p>
                   </div>
                   <ChevronRight className="w-5 h-5 text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -206,8 +201,6 @@ export default function Home() {
             </div>
           </div>
         </div>
-
-
       </div>
     </div>
   );
